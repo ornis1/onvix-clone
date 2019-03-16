@@ -1,163 +1,61 @@
 <template>
   <div id="app">
     <Header/>
+    <!-- <Slider/> -->
+    <!-- <MovieCardSmall/> -->
+    <MovieDescription/>
+    <!-- <MovieCardSmall/> -->
+    <!-- <Login/> -->
   </div>
 </template>
 
 <script>
+// import Login from "./Login.vue";
 import Header from "./components/Header/Header.vue";
+import MovieDescription from "./components/MovieDescription/MovieDescription.vue";
 export default {
   name: "app",
   components: {
-    Header
+    Header,
+    MovieDescription
   }
 };
 </script>
 
-<style>
-html,
-body,
-div,
-span,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-  outline: none;
-}
-html {
-  height: 101%;
-}
+<style lang='postcss'>
+@import "./assets/_variables.css";
+@import "./assets/_normalize.css";
 body {
-  font-size: 62.5%;
-  line-height: 1;
-  font-family: Arial, Tahoma, Verdana, sans-serif;
+  height: 100%;
+  background-color: $main;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  background-size: cover;
+  background-image: url("https://prisonbreak.site/assets/abstrac/background_movie-62ef086a103449794cfb8d089381f4b1103b7e03dede28083e1344a530367754.jpg");
 }
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
-  display: block;
-}
-ol,
-ul {
-  list-style: none;
-}
-blockquote,
-q {
-  quotes: none;
-}
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
+/* Темный градиент на background-e */
+body::after {
   content: "";
-  content: none;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  z-index: -1;
+  background-repeat: repeat-x;
+  background-image: linear-gradient(-180deg, rgba(21, 21, 21, 0.9), #171717);
 }
-strong {
-  font-weight: bold;
-}
-input {
-  outline: none;
-}
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-img {
-  border: 0;
-  max-width: 100%;
-}
-a {
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
+
+#app {
+  max-width: 1550px;
+  min-width: 800px;
+  margin: 0 auto;
+  padding: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 </style>

@@ -25,13 +25,16 @@
 
 <script>
 export default {
+  data() {
+    return {
+      movies: null,
+      request: null,
+      endpoint: "http://www.omdbapi.com/?plot=full&apikey=e52c6e3"
+    };
+  },
   name: "Search",
   props: {},
-  methods: {
-    alert() {
-      console.log("asd");
-    }
-  }
+  methods: {}
 };
 </script>
 
@@ -40,11 +43,11 @@ export default {
 @import "../../assets/_variables.css";
 .nav-icon {
   width: 100%;
-  background-color: var(--nav_bgc);
+  background-color: $nav_bgc;
 }
 .nav-search {
   display: flex;
-  min-width: 300px;
+  min-width: 200px;
   color: white;
   position: relative;
   height: 100%;
@@ -54,7 +57,7 @@ export default {
     min-width: 420px;
     height: 100%;
     padding: 0;
-    padding-left: 32px;
+    padding-left: 0px;
 
     background-color: transparent;
     border: none;
