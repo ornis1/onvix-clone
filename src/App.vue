@@ -1,23 +1,17 @@
 <template>
   <div id="app">
     <Header/>
-    <!-- <Slider/> -->
-    <!-- <MovieCardSmall/> -->
-    <MovieDescription/>
-    <!-- <MovieCardSmall/> -->
-    <!-- <Login/> -->
+    <Slider/>
   </div>
 </template>
 
 <script>
-// import Login from "./Login.vue";
 import Header from "./components/Header/Header.vue";
-import MovieDescription from "./components/MovieDescription/MovieDescription.vue";
+import Slider from "./components/Slider";
 export default {
-  name: "app",
   components: {
     Header,
-    MovieDescription
+    Slider
   }
 };
 </script>
@@ -26,21 +20,21 @@ export default {
 @import "./assets/_variables.css";
 @import "./assets/_normalize.css";
 body {
-  height: 100%;
+  /* height: 100%; */
   background-color: $main;
   font-family: "Lato", sans-serif;
   font-weight: 400;
-  background-repeat: no-repeat;
-  overflow: hidden;
+  background-repeat: repeat-y;
+  /* overflow: hidden; */
   background-size: cover;
-  background-image: url("https://prisonbreak.site/assets/abstrac/background_movie-62ef086a103449794cfb8d089381f4b1103b7e03dede28083e1344a530367754.jpg");
+  background-image: url("./assets/background_movie-62ef086a103449794cfb8d089381f4b1103b7e03dede28083e1344a530367754.webp");
 }
 /* Темный градиент на background-e */
 body::after {
   content: "";
   display: block;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   position: fixed;
   top: 0;
   z-index: -1;
@@ -52,10 +46,8 @@ body::after {
   max-width: 1550px;
   min-width: 800px;
   margin: 0 auto;
-  padding: 0 auto;
+  padding-top: 120px;
   display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100%;
 }
 </style>

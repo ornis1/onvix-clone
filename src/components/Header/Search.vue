@@ -1,7 +1,7 @@
 <template>
   <div class="nav-icon">
     <div class="nav-search">
-      <button class="btn-search" @click="alert">
+      <button class="btn-search">
         <svg
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"
@@ -18,7 +18,6 @@
         </svg>
       </button>
       <input type="text" placeholder="Поиск" value>
-      <!-- <button class="btn-close"></button> -->
     </div>
   </div>
 </template>
@@ -48,6 +47,7 @@ export default {
 .nav-search {
   display: flex;
   min-width: 200px;
+  max-width: 900px;
   color: white;
   position: relative;
   height: 100%;

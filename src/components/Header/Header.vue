@@ -38,8 +38,9 @@ export default {
 
   position: fixed;
   top: 0;
+  left: 0;
   height: $header-height;
-  /* min-width: 982px; */
+  min-width: 982px;
   width: 100%;
   box-sizing: border-box;
 }
