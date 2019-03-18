@@ -4,7 +4,8 @@
 	align-items: center;
 	text-align: center;
 }
-:root {
-	--nav_bgc: #1e1e1e;
-	--hover: #2d2d2d;
-}
+
+$nav_bgc: #1e1e1e;
+$hover: #2d2d2d;
+$header-height: 66px;
+$main: #171717;
