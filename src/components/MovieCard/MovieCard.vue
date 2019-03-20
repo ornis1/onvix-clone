@@ -1,14 +1,14 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" :class="posterSize">
     <div class="slider-item">
       <div class="slider-item--backdark"></div>
-      <Hover/>
       <TopIcons/>
-      <Watched v-if="watched.includes(movie.id)"/>
-      <Footer :year="movie.year" :rating="movie.rating_kinopoisk"/>
       <div v-show="movie.hdx" class="slider-item-hdx">HDX</div>
       <div class="slider-item-img">
-        <img v-bind:src="this.endpoint+movie.poster.small">
+        <Hover/>
+        <Watched v-if="watched.includes(movie.id)"/>
+        <Footer :year="movie.year" :rating="movie.rating_kinopoisk"/>
+        <img v-bind:src="imgSize">
       </div>
       <div class="slider-item-title">{{movie.title_ru}}</div>
     </div>
@@ -20,20 +20,81 @@ import TopIcons from "./TopIcons.vue";
 import Watched from "./Watched.vue";
 import Footer from "./Footer";
 export default {
-  name: "MovieCardSmall",
+  name: "MovieCard",
   components: { Hover, TopIcons, Watched, Footer },
   data() {
     return {
       endpoint: "https://prisonbreak.site"
     };
   },
-  props: { watched: Array, small: Boolean, large: Boolean, movie: Object }
+  props: { watched: Array, large: Boolean, movie: Object },
+  computed: {
+    imgSize() {
+      return (
+        this.endpoint +
+        (this.large ? this.movie.big_poster.large : this.movie.poster.large)
+      );
+    },
+    posterSize() {
+      return [this.large ? "big_poster" : "poster"];
+    }
+  }
 };
 </script>
 
 <style lang="postcss" scoped>
 @import url("../../assets/_variables.css");
 
+.poster {
+  width: 183px;
+  height: 346px;
+}
+.big_poster {
+  width: 365px;
+  height: 246px;
+  & .slider-item {
+    transform: scale(1);
+    height: 100%;
+    &-img {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      &-footer {
+        visibility: visible;
+        opacity: 1;
+        color: #aaa;
+        font-size: 12px;
+        margin: 0;
+        padding: 0;
+        justify-content: flex-start;
+        left: 17px;
+        bottom: 20px;
+      }
+    }
+    &-title {
+      position: absolute;
+      left: 17px;
+      color: #fff;
+      z-index: 5;
+      bottom: 36px;
+      height: auto;
+      justify-content: flex-start;
+      align-items: flex-end;
+      box-sizing: border-box;
+      padding-right: 17px;
+      width: auto;
+      /* margin-right: 20px; */
+      /* width: 100%; */
+    }
+    &:hover {
+      & .slider-item-img-footer,
+      .slider-item-title {
+        opacity: 0;
+        display: none;
+      }
+    }
+  }
+}
 .flex {
   display: flex;
   justify-content: center;
@@ -42,20 +103,19 @@ export default {
   height: 100vh;
   background-color: $main;
 }
+
 .wrapper {
   margin: 10px;
   box-sizing: border-box;
-  width: 183px;
-  height: 346px;
+
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .slider-item {
-  width: 183px;
-  height: 346px;
   position: relative;
-
+  width: 100%;
+  height: 100%;
   box-sizing: border-box;
   transform: scale(0.9);
   transition: 0.25s transform cubic-bezier(0.175, 0.885, 0.32, 1.275);

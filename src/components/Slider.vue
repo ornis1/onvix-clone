@@ -1,14 +1,14 @@
 <template>
   <div class="slider">
     <div class="slide" v-for="(movie,index) in movies" :key="index">
-      <MovieCardSmall :watched="watched" :movie="movie" :large="false" :small="true"/>
+      <MovieCard :watched="watched" :movie="movie" :large="true"/>
     </div>
   </div>
 </template>
 
 <script>
 import data from "../assets/movies.json";
-import MovieCardSmall from "./MovieCard/MovieCardSmall.vue";
+import MovieCard from "./MovieCard/MovieCard.vue";
 export default {
   data() {
     return {
@@ -20,7 +20,7 @@ export default {
     this.movies = data.materials;
   },
   name: "Slider",
-  components: { MovieCardSmall }
+  components: { MovieCard }
 };
 </script>
 

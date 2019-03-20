@@ -14,7 +14,7 @@ export default {
 .watched {
   position: absolute;
   width: 101%;
-  height: 76%;
+  height: 101%;
 
   display: flex;
   justify-content: center;
@@ -24,7 +24,7 @@ export default {
 
   border-radius: none;
   background: RGBA(23, 23, 23, 0.6);
-  z-index: 99;
+  z-index: 1;
   & span {
     color: RGBA(23, 255, 255, 1);
     border: 1px solid RGBA(23, 255, 255, 1);

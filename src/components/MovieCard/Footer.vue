@@ -1,7 +1,7 @@
 <template>
   <div class="slider-item-img-footer">
-    Кинопоиск: {{Math.round(rating*10)/10}}
-    <span class="info">/ {{year}}</span>
+    Кинопоиск: {{Math.round(rating*10)/10}}&nbsp;&nbsp;
+    <span class="info">/&nbsp;{{year}}</span>
   </div>
 </template>
 
@@ -24,15 +24,12 @@ export default {
   position: absolute;
   z-index: 3;
   align-items: flex-end;
-  bottom: 25%;
+  bottom: 0;
   padding-bottom: 10px;
   justify-content: center;
 
   font-size: 11px;
   color: white;
   visibility: hidden;
-  & .info {
-    color: #9ed8e8;
-  }
 }
 </style>

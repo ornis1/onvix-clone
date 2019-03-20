@@ -22,8 +22,8 @@ export default {
   opacity: 0;
   position: absolute;
   display: flex;
-  height: 75%;
   width: 100%;
+  height: 100%;
   z-index: 2;
   background: linear-gradient(
     to bottom,
