@@ -1,17 +1,20 @@
 <template>
   <div id="app">
     <Header/>
-    <Slider/>
+    <!-- <Slider/> -->
+    <!-- <Footer/> -->
   </div>
 </template>
 
 <script>
 import Header from "./components/Header/Header.vue";
 import Slider from "./components/Slider";
+import Footer from "./components/Footer";
 export default {
   components: {
     Header,
-    Slider
+    Slider,
+    Footer
   }
 };
 </script>
@@ -43,11 +46,10 @@ body::after {
 }
 
 #app {
-  max-width: 1550px;
-  min-width: 800px;
   margin: 0 auto;
   padding-top: 120px;
   display: flex;
-  height: 100%;
+  position: relative;
+  padding-bottom: 100px;
 }
 </style>

@@ -25,8 +25,7 @@
 
 <script>
 export default {
-  name: "Logo",
-  props: {}
+  name: "Logo"
 };
 </script>
 
