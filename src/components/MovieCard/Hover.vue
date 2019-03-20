@@ -2,10 +2,10 @@
   <div class="hover">
     <div class="hover-buttons">
       <div class="btn-gradient hover-btn">
-        <a href>Смотреть</a>
+        <a href="#">Смотреть</a>
       </div>
       <div class="btn-description hover-btn">
-        <a href>Описание</a>
+        <a href="#">Описание</a>
       </div>
     </div>
   </div>

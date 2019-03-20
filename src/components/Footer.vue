@@ -4,9 +4,9 @@
       <div class="logo"></div>
       <div class="copy">© 2016–{{new Date().getFullYear()}} «Onvix»</div>
       <div class="contacts">
-        <a href>О проекте</a>
-        <a href>Контакты</a>
-        <a href>Пользовательское соглашение</a>
+        <a href="#">О проекте</a>
+        <a href="#">Контакты</a>
+        <a href="#">Пользовательское соглашение</a>
       </div>
     </div>
   </div>
@@ -38,7 +38,8 @@ export default {
     grid-column: 1/2;
     grid-row: 1;
     height: 20px;
-    background-image: url("../");
+    background-image: url("../assets/logo.svg");
+    background-repeat: no-repeat;
   }
   & .copy {
     grid-column: 2/3;

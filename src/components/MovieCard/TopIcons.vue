@@ -1,7 +1,7 @@
 <template>
   <div class="top-icons">
-    <a href class="top-icons--list-add"></a>
-    <a href class="top-icons--delete"></a>
+    <a href="#" class="top-icons--list-add"></a>
+    <a href="#" class="top-icons--delete"></a>
   </div>
 </template>
 <script>

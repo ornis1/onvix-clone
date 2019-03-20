@@ -43,7 +43,7 @@
             <input type="checkbox" id="ch">
             <span>Запомните меня</span>
           </label>
-          <a href="/">Забыл пароль?</a>
+          <a href="#">Забыл пароль?</a>
         </div>
         <button @click="signIn()" class="btn gradient">Войти на сайт</button>
       </div>

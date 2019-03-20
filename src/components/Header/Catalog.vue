@@ -1,6 +1,6 @@
 <template>
   <div class="nav-icon">
-    <a class="nav-catalog dropdawn" href="/">
+    <a class="nav-catalog dropdawn" href="#">
       Каталог
       <span class="nav-catalog-arrow"></span>
     </a>
