@@ -4,6 +4,15 @@
 	align-items: center;
 	text-align: center;
 }
+@define-mixin arrow $size, $weight, $color {
+	/* position: absolute; */
+	height: $size;
+	width: $size;
+	border-top: $weight solid $color;
+	border-right: $weight solid $color;
+	transform: rotate(45deg);
+	@mixin-content;
+}
 $nav_bgc: #1e1e1e;
 $hover: #2d2d2d;
 $header-height: 66px;

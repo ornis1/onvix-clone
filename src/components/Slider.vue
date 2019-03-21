@@ -1,24 +1,36 @@
 <template>
-  <swiper class="slider" :options="swiperOption" ref="mySwiper">
+  <div class="slider">
+    <div class="slider-header">
+      <div class="slider-header-title">
+        <a href="#">{{this.title}}</a>
+        <div class="slider-header-title--arrow"></div>
+      </div>
+      <div class="slider-header-buttons">
+        <!-- Optional controls -->
+        <div class="show-all">
+          <a href="#">Все</a>
+        </div>
+        <div
+          class="swiper-button-prev"
+          :class="[isBlocked ? 'swiper-button-prev--blocked' : '']"
+          @click="swiper.slideTo(swiper.activeIndex - 3, 500), false;changeRealIndex()"
+          slot="button-prev"
+        ></div>
+        <div
+          class="swiper-button-next"
+          @click="swiper.slideTo(swiper.activeIndex + 3, 500), false;changeRealIndex()"
+          slot="button-next"
+        ></div>
+      </div>
+    </div>
+    <!-- /.slider-header -->
     <!-- slides -->
-    <div class="slide"></div>
-    <swiperSlide v-for="(movie,index) in movies" :key="index">
-      <MovieCard :watched="watched" :movie="movie" :large="false"></MovieCard>
-    </swiperSlide>
-    <!-- <div class="slide"></div>
-    <div style="background-color: #333" class="slide"></div>
-    <div class="slide"></div>
-    <div class="slide"></div>-->
-    <!-- Optional controls -->
-    <div class="swiper-pagination" slot="pagination"></div>
-    <div class="swiper-button-prev" slot="button-prev"></div>
-    <div
-      class="swiper-button-next"
-      @click="swiper.slideTo(swiper.activeIndex+3, 200), false"
-      slot="button-next"
-    ></div>
-    <div class="swiper-scrollbar" slot="scrollbar"></div>
-  </swiper>
+    <swiper :options="swiperOption" ref="mySwiper">
+      <swiperSlide v-for="(movie,index) in movies" :key="index">
+        <MovieCard class="slide" :watched="watched" :movie="movie" :large="cardSize"></MovieCard>
+      </swiperSlide>
+    </swiper>
+  </div>
 </template>
 
 <script>
@@ -33,19 +45,18 @@ export default {
     return {
       movies: {},
       watched: [164651, 164620, 164775, 164429, 164669],
+
+      realIndex: null,
+      isBlocked: true,
       swiperOption: {
         spaceBetween: 30,
         slidesPerView: 8,
         grabCursor: true,
-        freeMode: true,
-        effect: 'coverflow'
-        // Tranisition effect. Could be "slide", "fade", "cube", "coverflow" or "flip"
-        // slidesOffsetBefore: 100
-        // autoplay: 10,
-        // width: 365
+        effect: "slide"
       }
     };
   },
+  props: { cardSize: Boolean, title: String },
   name: "Slider",
   components: { MovieCard, swiper, swiperSlide },
   created() {
@@ -53,35 +64,179 @@ export default {
   },
   mounted() {
     // current swiper instance
-    console.log("this is current swiper instance object", this.swiper);
-    // this.swiper.init();
-    // this.swiper.allowSlideNext = true;
+    console.log("this.swiper = ", this.swiper);
   },
   computed: {
     swiper() {
       return this.$refs.mySwiper.swiper;
+    }
+  },
+  methods: {
+    changeRealIndex() {
+      this.realIndex = this.swiper.realIndex;
+      if (this.realIndex === 0) {
+        this.isBlocked = true;
+      } else {
+        this.isBlocked = false;
+      }
     }
   }
 };
 </script>
 
 <style lang="postcss">
-@import "../assets/slick.css";
+@import url("../assets/_variables.css");
+@import url("https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i");
+
+/* poster
+   width: 183px;
+  height: 346px;
+  big_poster
+  width: 365px;
+  height: 246px; */
 .slider {
   max-width: 1550px;
+  margin: 0 auto;
+  display: inline-block;
+  /* justify-content: flex-end; */
+  /* align-items: flex-end; */
+  /* margin-top: 150px; */
+  font-weight: 100;
+
+  &-header {
+    margin: 0 auto;
+    /* background-color: #fff; */
+    height: 80px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding: 0 30px;
+    box-sizing: border-box;
+    justify-content: space-between;
+    font-size: 24px;
+    cursor: pointer;
+    &-title {
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      &--arrow {
+        @mixin arrow 7px, 1px, #fff {
+          position: absolute;
+          right: -15px;
+          bottom: 5px;
+          transition: 0.1s;
+        }
+      }
+      & a {
+        color: #fff;
+        &:hover {
+          color: #ffc000;
+          text-decoration: none;
+        }
+      }
+      &:hover .slider-header-title--arrow {
+        right: -20px;
+        border-top: 1px solid #ffc000;
+        border-right: 1px solid #ffc000;
+      }
+    }
+    &-buttons {
+      display: flex;
+      & .show-all {
+        @mixin center;
+        margin-right: 30px;
+        background-color: rgba(255, 255, 255, 0.15);
+        border-radius: 5px;
+        /* border: 2px solid #333; */
+        font-size: 16px;
+        padding: 7px 16px;
+
+        & a {
+          color: white;
+        }
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.2);
+        }
+      }
+    }
+  }
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  border: 2px solid #333;
+  position: relative;
+  top: unset;
+  right: unset;
+  left: unset;
+  bottom: unset;
+  margin: 0;
+  padding: 0;
+  background-image: none;
+  height: 32px;
+  width: 30px;
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  /* margin: 0 100px; */
-  /* width: auto; */
-  /* margin: 0 auto; */
-  /* justify-content: center; */
-  /* display: flex; */
-  /* flex-wrap: wrap; */
-  /* height: 100%; */
-  /* overflow: hidden; */
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
+  border-radius: 5px;
+  &::before {
+    @mixin arrow 10px, 2px, #fff {
+      content: "";
+      display: block;
+      position: relative;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+  }
+  &:hover {
+    background-color: #fff;
+    &::before {
+      @mixin arrow 10px, 2px, $main;
+      cursor: pointer;
+    }
+  }
+}
+.swiper-button-prev {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  &::before {
+    transform: rotate(225deg);
+    cursor: pointer;
+  }
+  &:hover&::before {
+    transform: rotate(225deg);
+  }
+}
+.swiper-button-next {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-left: none;
+  cursor: pointer;
 }
 .slide {
-  display: block;
+  z-index: 1000;
+}
+.swiper-button-prev {
+  &--blocked {
+    cursor: not-allowed;
+    &::before {
+      @mixin arrow 10px, 2px, rgba(255, 255, 255, 0.2) {
+        content: "";
+        display: block;
+        position: relative;
+        box-sizing: border-box;
+        transform: rotate(225deg);
+      }
+    }
+    &:hover {
+      background-color: $main;
+      &::before {
+        @mixin arrow 10px, 2px, rgba(255, 255, 255, 0.2) {
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
 }
 </style>
