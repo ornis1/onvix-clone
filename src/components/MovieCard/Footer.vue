@@ -15,7 +15,7 @@ export default {
 };
 </script>
 
-<style lang="postcss" scoped>
+<style lang="postcss" >
 .slider-item-img-footer {
   display: flex;
   width: 100%;

@@ -1,12 +1,12 @@
 <template>
   <header class="header">
     <nav class="nav">
-      <Logo/>
-      <Catalog/>
-      <Search/>
-      <Replay/>
-      <Notification/>
-      <Profile/>
+      <Logo class="nav-icon logo"/>
+      <Catalog class="nav-icon"/>
+      <Search class="nav-icon"/>
+      <Replay class="nav-icon"/>
+      <Notification class="nav-icon"/>
+      <Profile class="nav-icon"/>
     </nav>
   </header>
 </template>
@@ -26,9 +26,13 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang='postcss'>
-@import "../../assets/_variables.css";
-
+<style lang='postcss' scoped>
+@import url("../../assets/_variables.css");
+.logo {
+  box-sizing: border-box;
+  width: 200px;
+  padding: 5px 20px;
+}
 .header {
   font-size: 16px;
   font-family: "Lato", sans-serif;
@@ -42,20 +46,19 @@ export default {
   height: $header-height;
   min-width: 982px;
   width: 100%;
-  box-sizing: border-box;
 }
 .nav {
+  min-width: 980px;
   max-width: 1550px;
+  width: auto;
   margin: 0 auto;
   height: 66px;
-  width: auto;
   display: flex;
 
   &-icon {
     color: white;
-    /* border: 1px solid white; */
     height: 100%;
-
+    /* cursor: pointer; */
     @mixin center;
 
     &:hover {

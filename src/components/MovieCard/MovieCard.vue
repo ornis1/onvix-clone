@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper" :class="posterSize">
+  <div class="wrapper" :class="cardSize">
     <div class="slider-item">
       <div class="slider-item--backdark"></div>
       <TopIcons/>
@@ -8,7 +8,7 @@
         <Hover/>
         <Watched v-if="watched.includes(movie.id)"/>
         <Footer :year="movie.year" :rating="movie.rating_kinopoisk"/>
-        <img v-bind:src="imgSize">
+        <img v-bind:src="imgLink(cardSize)">
       </div>
       <div class="slider-item-title">{{movie.title_ru}}</div>
     </div>
@@ -27,24 +27,26 @@ export default {
       endpoint: "https://prisonbreak.site"
     };
   },
-  props: { watched: Array, large: Boolean, movie: Object },
-  computed: {
-    imgSize() {
-      return (
-        this.endpoint +
-        (this.large ? this.movie.big_poster.large : this.movie.poster.large)
-      );
-    },
-    posterSize() {
-      return [this.large ? "big_poster" : "poster"];
+  beforeDestroy() {
+    this.endpoint = null;
+  },
+  props: { watched: Array, cardSize: String, movie: Object },
+  methods: {
+    imgLink(cardSize) {
+      if (cardSize === "poster") {
+        return this.endpoint + this.movie.poster.small;
+      }
+      return "https://im2.ezgif.com/tmp/ezgif-2-93587a182941.gif";
+      if (cardSize === "big_poster") {
+        return this.endpoint + this.movie.big_poster.small;
+      }
     }
   }
 };
 </script>
 
-<style lang="postcss" scoped>
-@import url("../../assets/_variables.css");
-
+<style lang="postcss">
+/* @import url("../../assets/_variables.css"); */
 .poster {
   width: 183px;
   height: 346px;

@@ -17,7 +17,7 @@ export default {
 };
 </script>
 
-<style lang="postcss" scoped>
+<style lang="postcss" >
 .hover {
   opacity: 0;
   position: absolute;
