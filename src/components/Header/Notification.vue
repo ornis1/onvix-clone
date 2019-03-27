@@ -11,12 +11,7 @@ import IconBell from "../icons/IconBell";
 export default {
   components: { IconBell },
   name: "Notification",
-  props: {},
-  data() {
-    return {
-      isNotified
-    };
-  }
+  props: {}
 };
 </script>
 

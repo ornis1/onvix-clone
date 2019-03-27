@@ -12,13 +12,13 @@
         </div>
         <div
           class="swiper-button-prev"
-          :class="[isBlocked ? 'swiper-button-prev--blocked' : '']"
-          @click="swiper.slideTo(swiper.activeIndex - 3, 500), false;changeRealIndex()"
+          :class="{'swiper-button-prev--blocked':isBlocked}"
+          @click="swiper.slideTo(swiper.activeIndex - step, 500), false;decrRealIndex(step)"
           slot="button-prev"
         ></div>
         <div
           class="swiper-button-next"
-          @click="swiper.slideTo(swiper.activeIndex + 3, 500), false;changeRealIndex()"
+          @click="swiper.slideTo(swiper.activeIndex + step, 500), false;incrRealIndex(step)"
           slot="button-next"
         ></div>
       </div>
@@ -27,7 +27,7 @@
     <!-- slides -->
     <swiper :options="swiperOption" ref="mySwiper">
       <swiperSlide v-for="(movie,index) in movies" :key="index">
-        <MovieCard class="slide" :watched="watched" :movie="movie" :large="cardSize"></MovieCard>
+        <MovieCard class="slide" :watched="watched" :movie="movie" :cardSize="cardSize"></MovieCard>
       </swiperSlide>
     </swiper>
   </div>
@@ -45,40 +45,71 @@ export default {
     return {
       movies: {},
       watched: [164651, 164620, 164775, 164429, 164669],
-
       realIndex: null,
       isBlocked: true,
-      swiperOption: {
-        spaceBetween: 30,
-        slidesPerView: 8,
-        grabCursor: true,
-        effect: "slide"
+      sliderOption: {
+        generelSettings: {
+          grabCursor: true,
+          effect: "slide",
+          simulateTouch: false
+        },
+        poster: {
+          swiperOption: {
+            spaceBetween: 30,
+            slidesPerView: 8
+          },
+          step: 3
+        },
+        big_poster: {
+          swiperOption: {
+            spaceBetween: 30,
+            slidesPerView: 4
+          },
+          step: 1
+        }
       }
     };
   },
-  props: { cardSize: Boolean, title: String },
+  props: { cardSize: String, title: String },
   name: "Slider",
   components: { MovieCard, swiper, swiperSlide },
-  created() {
-    this.movies = data.materials;
+  created() {},
+  beforeDestroy() {
+    // this.$data.swiperOption = null;
   },
   mounted() {
     // current swiper instance
-    console.log("this.swiper = ", this.swiper);
+    this.movies = data.materials;
   },
   computed: {
     swiper() {
       return this.$refs.mySwiper.swiper;
+    },
+    step() {
+      return this.sliderOption[this.cardSize].step;
+    },
+    swiperOption() {
+      return {
+        ...this.sliderOption[this.cardSize].swiperOption,
+        ...this.sliderOption[this.cardSize].generelSettings
+      };
     }
   },
   methods: {
-    changeRealIndex() {
-      this.realIndex = this.swiper.realIndex;
-      if (this.realIndex === 0) {
-        this.isBlocked = true;
-      } else {
-        this.isBlocked = false;
+    incrRealIndex(step) {
+      if (!(this.realIndex + step >= this.movies.length)) {
+        this.realIndex += step;
+        this.blocked();
       }
+    },
+    decrRealIndex(step) {
+      if (this.realIndex !== 0) {
+        this.realIndex -= step;
+        this.blocked();
+      }
+    },
+    blocked() {
+      this.isBlocked = this.realIndex <= 0 ? true : false;
     }
   }
 };
@@ -101,7 +132,7 @@ export default {
   /* justify-content: flex-end; */
   /* align-items: flex-end; */
   /* margin-top: 150px; */
-  font-weight: 100;
+  /* font-weight: 100; */
 
   &-header {
     margin: 0 auto;

@@ -5,13 +5,13 @@
         <img v-bind:src="imgLink" alt>
         <div class="icons">
           <a href="#">
-            <icon-watched/>
+            <icon-star class="star"/>
           </a>
           <a href="#">
-            <icon-star/>
+            <icon-clock class="clock"/>
           </a>
           <a href="#">
-            <icon-clock/>
+            <icon-watched class="watched"/>
           </a>
         </div>
       </div>
@@ -65,12 +65,12 @@
             <li>{{movie.description}}</li>
           </ul>
         </tab>
-        <tab name="Серии">
+        <tab name="Озвучки">
           <ul>
             <li>{{movie.description}}</li>
           </ul>
         </tab>
-        <tab name="Каппа">
+        <tab v-if="movie.type !== 'movie'" name="Серии">
           <ul>
             <li>{{movie.description}}</li>
           </ul>
@@ -98,8 +98,8 @@
 import data from "../../assets/movies.json";
 /* Import Icons */
 import IconWatched from "../icons/IconWatched";
-import IconStar from "../icons/IconStar";
-import IconClock from "../icons/IconClock";
+import IconStar from "../icons/IconStarSolid";
+import IconClock from "../icons/IconClockSolid";
 /*  */
 import Tab from "./Tab.vue";
 import Tabs from "./Tabs.vue";
@@ -114,7 +114,7 @@ export default {
     };
   },
   created() {
-    this.movie = data.materials[26];
+    this.movie = data.materials[2];
   },
 
   computed: {
@@ -176,14 +176,39 @@ export default {
       display: flex;
       justify-content: space-around;
       & a {
-        background-color: rgba(255, 255, 255, 0.2);
+        /* background-color: rgba(255, 255, 255, 0.2); */
+        border: 2px solid rgba(255, 255, 255, 0.4);
         border-radius: 50%;
         color: #fff;
         @mixin center;
         height: 30px;
         width: 30px;
-        padding: 5px;
-        box-sizing: border-box;
+        &:hover {
+          background-color: #fff;
+          .star,
+          .clock,
+          .watched {
+            color: #000;
+            background-color: transparent;
+          }
+        }
+        .star,
+        .clock,
+        .watched {
+          background-color: transparent;
+        }
+        .star {
+          width: 15px;
+          height: 15px;
+        }
+        .clock {
+          height: 17px;
+          width: 17px;
+        }
+        .watched {
+          width: 22px;
+          height: 22px;
+        }
       }
     }
   }

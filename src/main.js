@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import App from './App.vue';
-// import VueAwesomeSwiper from 'vue-awesome-swiper';
-require('./assets/_variables.css');
-// import 'swiper/dist/css/swiper.css';
+import Popover from 'vue-js-popover';
+
+// require('./assets/_variables.css');
 Vue.use(Router);
-// Vue.use(VueAwesomeSwiper);
+Vue.use(Popover, { tooltip: true });
 const router = new Router({
 	routes: [
 		{
