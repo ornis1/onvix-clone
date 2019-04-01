@@ -1,15 +1,23 @@
 <template>
   <div class="top-icons">
-    <a href="#" class="top-icons--list-add"></a>
-    <a href="#" class="top-icons--delete"></a>
+    <span class="top-icons--list-add fas fa-bars">
+      <a href="#"></a>
+    </span>
+    <span class="fas fa-times top-icons--delete">
+      <a href="#"></a>
+    </span>
   </div>
 </template>
 <script>
 export default {
+<<<<<<< HEAD
+  name: 'topIcons',
+=======
   name: "topIcons"
+>>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 };
 </script>
-<style lang="postcss" scoped>
+<style lang="postcss" >
 .top-icons {
   position: absolute;
   top: 0;
@@ -22,65 +30,6 @@ export default {
   align-items: center;
 
   z-index: 5;
-  opacity: 0;
-  visibility: hidden;
-}
-
-.top-icons--list-add {
-  margin-right: 4px;
-  width: 15px;
-  height: 15px;
-  opacity: 0.5;
-  background-image: url("../../assets/iconfinder_menu-alt_134216.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  transition: 0.1s;
-  &:hover {
-    opacity: 1;
-    transform: scale(1.1);
-  }
-}
-.top-icons--delete {
-  display: flex;
-  height: 12px;
-  width: 12px;
-  box-sizing: border-box;
-
-  border: none;
-  background: transparent;
-  justify-content: center;
-  align-items: center;
-  margin-left: 5px;
-
-  cursor: pointer;
-
-  opacity: 0.4;
-  transition: 0.1s;
-  &:hover {
-    transform: scale(1.1);
-    color: white;
-    opacity: 1;
-  }
-  &::after {
-    content: "";
-    background-color: #000;
-    position: absolute;
-    margin: 0 auto;
-    height: 2px;
-    width: 12px;
-    transform: rotate(45deg);
-  }
-  &::before {
-    content: "";
-    background-color: #000;
-    position: absolute;
-    margin: 0 auto;
-    height: 12px;
-    width: 2px;
-    transform: rotate(45deg);
-  }
-}
-.top-icons:hover .top-icons {
   opacity: 0;
   visibility: hidden;
 }

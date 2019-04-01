@@ -1,11 +1,11 @@
 <template>
-  <div class="nav-icon">
-    <div class="profile">
+  <div>
+    <a class="profile" href="#">
       <img
         src="https://prisonbreak.site/uploads/user_pictures/64302e214492346b7df90051376ff090/small_94b368166a6888e743b44cd0.jpg"
         alt
       >
-    </div>
+    </a>
   </div>
 </template>
 
@@ -17,12 +17,16 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang='postcss'>
+<style  lang='postcss'>
 .profile {
   cursor: pointer;
   height: 66px;
   width: 66px;
   @mixin center;
+}
+.profile:active,
+.profile:focus {
+  background-color: #fff;
 }
 .profile img {
   height: 35px;

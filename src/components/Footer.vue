@@ -1,7 +1,7 @@
 <template>
   <div class="app-footer">
     <div class="container-flex">
-      <div class="logo"></div>
+      <Logo/>
       <div class="copy">© 2016–{{new Date().getFullYear()}} «Onvix»</div>
       <div class="contacts">
         <a href="#">О проекте</a>
@@ -12,17 +12,34 @@
   </div>
 </template>
 <script>
+<<<<<<< HEAD
+import Logo from '@/components/icons/IconLogo';
+
 export default {
-  name: "Footer"
+  name: 'Footer',
+  components: { Logo },
+=======
+import Logo from "./Header/Logo";
+export default {
+  name: "Footer",
+  components: { Logo }
+>>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 };
 </script>
 
-<style lang="postcss" scoped>
+<style lang="postcss" >
+<<<<<<< HEAD
+@import url('../assets/styles/_colors.css');
 .app-footer {
-  overflow: hidden;
   position: absolute;
   bottom: 0;
   left: 0;
+=======
+.app-footer {
+  /* position: static; */
+  /* bottom: 0; */
+  /* left: 0; */
+>>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
   margin-bottom: 30px;
   width: 100%;
   height: 60px;
@@ -38,14 +55,11 @@ export default {
     grid-column: 1/2;
     grid-row: 1;
     height: 20px;
-    background-image: url("../assets/logo.svg");
-    background-repeat: no-repeat;
   }
   & .copy {
+    @mixin center;
     grid-column: 2/3;
     grid-row: 1;
-    display: flex;
-    justify-content: center;
   }
   & .contacts {
     grid-column: 3/4;

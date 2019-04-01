@@ -1,20 +1,37 @@
 <template>
-  <div class="wrapper" :class="posterSize">
+  <div class="wrapper" :class="cardSize">
     <div class="slider-item">
       <div class="slider-item--backdark"></div>
       <TopIcons/>
       <div v-show="movie.hdx" class="slider-item-hdx">HDX</div>
       <div class="slider-item-img">
+<<<<<<< HEAD
+        <Hover :id="movie.id"/>
+=======
         <Hover/>
+>>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
         <Watched v-if="watched.includes(movie.id)"/>
         <Footer :year="movie.year" :rating="movie.rating_kinopoisk"/>
-        <img v-bind:src="imgSize">
+        <img v-bind:src="imgLink(cardSize)">
       </div>
       <div class="slider-item-title">{{movie.title_ru}}</div>
     </div>
   </div>
 </template>
 <script>
+<<<<<<< HEAD
+import Hover from 'MovieCard/Hover';
+import TopIcons from 'MovieCard/TopIcons';
+import Watched from 'MovieCard/Watched';
+import Footer from 'MovieCard/Footer';
+
+export default {
+  name: 'MovieCard',
+  components: { Hover, TopIcons, Watched, Footer },
+  data() {
+    return {
+      endpoint: 'https://prisonbreak.site',
+=======
 import Hover from "./Hover.vue";
 import TopIcons from "./TopIcons.vue";
 import Watched from "./Watched.vue";
@@ -25,26 +42,45 @@ export default {
   data() {
     return {
       endpoint: "https://prisonbreak.site"
+>>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
     };
   },
-  props: { watched: Array, large: Boolean, movie: Object },
-  computed: {
-    imgSize() {
-      return (
-        this.endpoint +
-        (this.large ? this.movie.big_poster.large : this.movie.poster.large)
-      );
+  beforeDestroy() {
+    this.endpoint = null;
+  },
+  props: { watched: Array, cardSize: String, movie: Object },
+  methods: {
+    imgLink(cardSize) {
+<<<<<<< HEAD
+      if (cardSize === 'poster') {
+        return this.endpoint + this.movie.poster.small;
+      }
+      if (cardSize === 'big_poster') {
+        return this.endpoint + this.movie.big_poster.small;
+      }
+      return 'https://im2.ezgif.com/tmp/ezgif-2-93587a182941.gif';
     },
-    posterSize() {
-      return [this.large ? "big_poster" : "poster"];
+  },
+=======
+      if (cardSize === "poster") {
+        return this.endpoint + this.movie.poster.small;
+      }
+      return "https://im2.ezgif.com/tmp/ezgif-2-93587a182941.gif";
+      if (cardSize === "big_poster") {
+        return this.endpoint + this.movie.big_poster.small;
+      }
     }
   }
+>>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 };
 </script>
 
-<style lang="postcss" scoped>
-@import url("../../assets/_variables.css");
-
+<style lang="postcss">
+<<<<<<< HEAD
+@import '../../styles/_colors.css';
+=======
+/* @import url("../../assets/_variables.css"); */
+>>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 .poster {
   width: 183px;
   height: 346px;

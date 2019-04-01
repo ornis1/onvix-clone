@@ -1,23 +1,51 @@
 <template>
   <div class="hover">
     <div class="hover-buttons">
+<<<<<<< HEAD
+      <button-primary :options="{margin: '10px 0'}" color="gradient">
+        <router-link to="/">Смотреть</router-link>
+      </button-primary>
+      <button-primary :options="{margin: '10px 0'}" color="normal">
+        <router-link :to="linkPath">Описание</router-link>
+      </button-primary>
+=======
       <div class="btn-gradient hover-btn">
         <a href="#">Смотреть</a>
       </div>
       <div class="btn-description hover-btn">
         <a href="#">Описание</a>
       </div>
+>>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
     </div>
   </div>
 </template>
 
 <script>
+<<<<<<< HEAD
+import ButtonPrimary from 'Buttons/Button';
+
+export default {
+  name: 'Hover',
+  components: { ButtonPrimary },
+  props: {
+    id: {
+      type: [String, Number],
+      requare: true,
+    },
+  },
+  computed: {
+    linkPath() {
+      return '/';
+    },
+  },
+=======
 export default {
   name: "Hover"
+>>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 };
 </script>
 
-<style lang="postcss" scoped>
+<style lang="postcss" >
 .hover {
   opacity: 0;
   position: absolute;
@@ -31,6 +59,13 @@ export default {
     #24b2d8 100%
   );
   background-repeat: no-repeat;
+<<<<<<< HEAD
+  &-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+=======
   justify-content: center;
   align-items: center;
   &-btn {
@@ -88,6 +123,7 @@ export default {
     & a {
       color: black;
     }
+>>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
   }
 }
 </style>

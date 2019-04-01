@@ -1,82 +1,125 @@
 <template>
-  <div class="nav-icon">
+  <div>
+    <!-- <div :class="[request ? 'is-active': '','nav-search' ]"> -->
     <div class="nav-search">
-      <button class="btn-search">
-        <svg
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          class="sprite-svg sprite-svg--search"
-          width="14px"
-          height="15px"
-          viewBox="0 0 14 15"
-        >
-          <g class="svg--search-g" fill="none" fill-rule="evenodd" stroke="#FFF" stroke-width="2">
-            <circle cx="6" cy="6" r="5"></circle>
-            <path d="M9.11547852 10.1070557l3.36962888 3.2701416" stroke-linecap="square"></path>
-          </g>
-        </svg>
+      <button class="btn btn-search">
+        <icon-search class="icon"></icon-search>
       </button>
-      <input type="text" placeholder="Поиск" value>
+      <button class="btn btn-close" @click="clear">
+        <icon-close class="icon"></icon-close>
+      </button>
+      <input type="text" placeholder="Поиск" v-model="request">
     </div>
   </div>
 </template>
 
 <script>
+<<<<<<< HEAD
+import IconSearch from '../icons/IconSearch';
+import IconClose from '../icons/IconClose';
+
+=======
+import IconSearch from "../icons/IconSearch";
+import IconClose from "../icons/IconClose";
+>>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 export default {
+  components: { IconSearch, IconClose },
   data() {
     return {
       movies: null,
-      request: null,
+<<<<<<< HEAD
+      request: '',
+      endpoint: 'http://www.omdbapi.com/?plot=full&apikey=e52c6e3',
+    };
+  },
+  name: 'Search',
+  props: {},
+  methods: {
+    clear() {
+      this.request = '';
+    },
+  },
+=======
+      request: "",
       endpoint: "http://www.omdbapi.com/?plot=full&apikey=e52c6e3"
     };
   },
   name: "Search",
   props: {},
-  methods: {}
+  methods: {
+    clear() {
+      this.request = "";
+    }
+  }
+>>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang='postcss'>
-@import "../../assets/_variables.css";
-.nav-icon {
-  width: 100%;
-  background-color: $nav_bgc;
-}
+<<<<<<< HEAD
+=======
+/* @import "../../assets/_variables.css"; */
+>>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 .nav-search {
-  display: flex;
-  min-width: 200px;
-  max-width: 900px;
-  color: white;
+  @mixin center;
+  align-items: stretch;
   position: relative;
-  height: 100%;
-  width: 100%;
   & input {
-    width: 100%;
-    min-width: 420px;
-    height: 100%;
-    padding: 0;
-    padding-left: 0px;
-
     background-color: transparent;
     border: none;
-    outline: none;
+    padding-left: 60px;
+    color: #000;
+    &:focus {
+      background-color: #fff;
+      &::placeholder {
+        color: grey;
+      }
+    }
+    &:active {
+      background-color: #fff;
+    }
     &::placeholder {
       color: white;
       opacity: 1;
       font-size: 16px;
     }
   }
-  .btn-close {
+  .btn {
+    width: 60px;
+    height: 100%;
+    border: none;
+    padding: 0;
     background-color: transparent;
+    cursor: pointer;
+    position: absolute;
+    .icon {
+      width: 16px;
+      height: 16px;
+    }
   }
   .btn-search {
-    background-color: transparent;
-    border: none;
-    height: 100%;
-    width: 60px;
-    cursor: pointer;
+    color: #fff;
+    left: 0;
+  }
+  .btn-close {
+    color: black;
+    opacity: 0;
+    top: calc(50%-10px);
+    right: 10px;
+    width: auto;
+    height: auto;
+  }
+}
+.is-active {
+  input {
+    background-color: #fff;
+  }
+  .btn-close {
+    opacity: 1;
+  }
+  .btn-search {
+    color: black;
   }
 }
 </style>
