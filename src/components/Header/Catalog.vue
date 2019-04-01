@@ -8,39 +8,22 @@
 </template>
 
 <script>
-<<<<<<< HEAD
 import IconArrowDown from '../icons/IconArrowDown';
 // import IconMenu from "../icons/IconMenu.vue";
 export default {
   name: 'Catalog',
   components: {
     'arrow-down': IconArrowDown,
-=======
-import IconArrowDown from "../icons/IconArrowDown.vue";
-// import IconMenu from "../icons/IconMenu.vue";
-export default {
-  name: "Catalog",
-  components: {
-    "arrow-down": IconArrowDown
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
   },
   data() {
     return {};
   },
-<<<<<<< HEAD
   props: {},
-=======
-  props: {}
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  lang='postcss'>
-<<<<<<< HEAD
-=======
-@import url("../../assets/_variables.css");
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 .nav-catalog {
   @mixin center;
   color: white;

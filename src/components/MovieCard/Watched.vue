@@ -6,11 +6,7 @@
 
 <script>
 export default {
-<<<<<<< HEAD
   name: 'Watched',
-=======
-  name: "Watched"
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 };
 </script>
 

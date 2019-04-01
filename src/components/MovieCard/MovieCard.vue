@@ -5,11 +5,7 @@
       <TopIcons/>
       <div v-show="movie.hdx" class="slider-item-hdx">HDX</div>
       <div class="slider-item-img">
-<<<<<<< HEAD
         <Hover :id="movie.id"/>
-=======
-        <Hover/>
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
         <Watched v-if="watched.includes(movie.id)"/>
         <Footer :year="movie.year" :rating="movie.rating_kinopoisk"/>
         <img v-bind:src="imgLink(cardSize)">
@@ -19,7 +15,6 @@
   </div>
 </template>
 <script>
-<<<<<<< HEAD
 import Hover from 'MovieCard/Hover';
 import TopIcons from 'MovieCard/TopIcons';
 import Watched from 'MovieCard/Watched';
@@ -31,18 +26,6 @@ export default {
   data() {
     return {
       endpoint: 'https://prisonbreak.site',
-=======
-import Hover from "./Hover.vue";
-import TopIcons from "./TopIcons.vue";
-import Watched from "./Watched.vue";
-import Footer from "./Footer";
-export default {
-  name: "MovieCard",
-  components: { Hover, TopIcons, Watched, Footer },
-  data() {
-    return {
-      endpoint: "https://prisonbreak.site"
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
     };
   },
   beforeDestroy() {
@@ -51,7 +34,6 @@ export default {
   props: { watched: Array, cardSize: String, movie: Object },
   methods: {
     imgLink(cardSize) {
-<<<<<<< HEAD
       if (cardSize === 'poster') {
         return this.endpoint + this.movie.poster.small;
       }
@@ -61,26 +43,11 @@ export default {
       return 'https://im2.ezgif.com/tmp/ezgif-2-93587a182941.gif';
     },
   },
-=======
-      if (cardSize === "poster") {
-        return this.endpoint + this.movie.poster.small;
-      }
-      return "https://im2.ezgif.com/tmp/ezgif-2-93587a182941.gif";
-      if (cardSize === "big_poster") {
-        return this.endpoint + this.movie.big_poster.small;
-      }
-    }
-  }
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 };
 </script>
 
 <style lang="postcss">
-<<<<<<< HEAD
 @import '../../styles/_colors.css';
-=======
-/* @import url("../../assets/_variables.css"); */
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 .poster {
   width: 183px;
   height: 346px;

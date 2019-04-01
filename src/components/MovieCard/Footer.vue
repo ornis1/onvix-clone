@@ -7,19 +7,11 @@
 
 <script>
 export default {
-<<<<<<< HEAD
   name: 'Footer',
   props: {
     year: Number,
     rating: Number,
   },
-=======
-  name: "Footer",
-  props: {
-    year: Number,
-    rating: Number
-  }
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 };
 </script>
 

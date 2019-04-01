@@ -95,7 +95,6 @@
 
 <script>
 // import Vue from "vue";
-<<<<<<< HEAD
 import data from '../../assets/movies.json';
 /* Import Icons */
 import IconWatched from '../icons/IconWatched';
@@ -112,24 +111,6 @@ export default {
     return {
       endpoint: 'https://prisonbreak.site/',
       movie: {},
-=======
-import data from "../../assets/movies.json";
-/* Import Icons */
-import IconWatched from "../icons/IconWatched";
-import IconStar from "../icons/IconStarSolid";
-import IconClock from "../icons/IconClockSolid";
-/*  */
-import Tab from "./Tab.vue";
-import Tabs from "./Tabs.vue";
-
-export default {
-  name: "MovieDescription",
-  components: { Tab, Tabs, IconWatched, IconStar, IconClock },
-  data() {
-    return {
-      endpoint: "https://prisonbreak.site/",
-      movie: {}
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
     };
   },
   created() {
@@ -139,13 +120,8 @@ export default {
   computed: {
     imgLink() {
       return this.endpoint + this.movie.poster.medium;
-<<<<<<< HEAD
     },
   },
-=======
-    }
-  }
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 };
 </script>
 
@@ -174,11 +150,7 @@ export default {
     &::before {
       position: absolute;
       z-index: 1;
-<<<<<<< HEAD
       content: '';
-=======
-      content: "";
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
       display: block;
       width: 100%;
       height: 100%;

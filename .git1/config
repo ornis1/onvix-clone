@@ -1,0 +1,8 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[remote "onvix"]
+	url = https://www.github.com/ornis1/onvix-clone
+	fetch = +refs/heads/*:refs/remotes/onvix/*

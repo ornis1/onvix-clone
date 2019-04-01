@@ -1,1 +1,5 @@
-slider1.vue
+/build/
+/config/
+/dist/
+/*.js
+/src/components/icons/

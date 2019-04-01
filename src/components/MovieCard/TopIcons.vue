@@ -10,11 +10,7 @@
 </template>
 <script>
 export default {
-<<<<<<< HEAD
   name: 'topIcons',
-=======
-  name: "topIcons"
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 };
 </script>
 <style lang="postcss" >

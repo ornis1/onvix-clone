@@ -52,7 +52,6 @@
 </template>
 <script>
 export default {
-<<<<<<< HEAD
   name: 'Login',
   data() {
     return {
@@ -61,16 +60,6 @@ export default {
       password: '',
       isErrorR: false,
       isErrorL: false,
-=======
-  name: "Login",
-  data() {
-    return {
-      promoCode: "",
-      email: "",
-      password: "",
-      isErrorR: false,
-      isErrorL: false
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
     };
   },
   methods: {
@@ -87,18 +76,12 @@ export default {
         return;
       }
       this.isErrorR = true;
-<<<<<<< HEAD
     },
   },
-=======
-    }
-  }
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 };
 </script>
 
 <style lang="postcss" scoped>
-<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i');
 
 .wrapper {
@@ -107,26 +90,11 @@ export default {
   box-sizing: border-box;
   width: 960px;
   height: 550px;
-=======
-body {
-  background-color: #333;
-}
-.wrapper {
-  box-sizing: border-box;
-  $wrapper-w: 960px;
-  $wrapper-h: 550px;
-  width: $wrapper-w;
-  height: $wrapper-h;
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
   background-color: #fff;
   display: flex;
   & .promo,
   .login-form {
-<<<<<<< HEAD
     width: 480px;
-=======
-    width: calc($wrapper-w / 2);
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
   }
   & .promo {
     background-color: #1a1a1a;
@@ -136,10 +104,6 @@ body {
     }
     &-btn {
       font-size: 18px;
-<<<<<<< HEAD
-=======
-      cursor: pointer;
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
       display: flex;
       justify-content: center;
       align-items: center;
@@ -168,11 +132,7 @@ body {
     &-img {
       margin: 0 auto;
       margin-top: 150px;
-<<<<<<< HEAD
       background-image: url('https://prisonbreak.site/assets/base/spites/icons-eb0c1c576e97876123af1dfd2ce97d7e93deef9be5d1754f544cfe508d6524ce.png');
-=======
-      background-image: url("https://prisonbreak.site/assets/base/spites/icons-eb0c1c576e97876123af1dfd2ce97d7e93deef9be5d1754f544cfe508d6524ce.png");
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
       background-position: -15px -1517px;
       width: 142px;
       height: 101px;
@@ -188,11 +148,7 @@ body {
       flex-direction: column;
       position: relative;
       & .group {
-<<<<<<< HEAD
         font-family: 'Roboto';
-=======
-        font-family: "Roboto";
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
         margin-top: 10px;
         display: flex;
         justify-content: space-between;
@@ -233,22 +189,14 @@ body {
       font-size: 16px;
       background-color: #dfa940;
       text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
-<<<<<<< HEAD
       font-family: 'Lato', sans-serif;
-=======
-      font-family: "Lato", sans-serif;
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
       color: #fff;
       padding: 15px 20px 15px 70px;
       border-radius: 5px;
       margin: 15px 0;
       &::after {
         /* font */
-<<<<<<< HEAD
         content: '!';
-=======
-        content: "!";
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
         color: #dfa940;
         font-size: 24px;
         /* display and pos */
@@ -276,11 +224,8 @@ body {
   }
 }
 .btn {
-<<<<<<< HEAD
   cursor: pointer;
 
-=======
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
   margin: 0 auto;
   margin-top: 20px;
   width: 359px;

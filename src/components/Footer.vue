@@ -12,34 +12,20 @@
   </div>
 </template>
 <script>
-<<<<<<< HEAD
 import Logo from '@/components/icons/IconLogo';
 
 export default {
   name: 'Footer',
   components: { Logo },
-=======
-import Logo from "./Header/Logo";
-export default {
-  name: "Footer",
-  components: { Logo }
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 };
 </script>
 
 <style lang="postcss" >
-<<<<<<< HEAD
 @import url('../assets/styles/_colors.css');
 .app-footer {
   position: absolute;
   bottom: 0;
   left: 0;
-=======
-.app-footer {
-  /* position: static; */
-  /* bottom: 0; */
-  /* left: 0; */
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
   margin-bottom: 30px;
   width: 100%;
   height: 60px;

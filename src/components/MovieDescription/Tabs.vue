@@ -2,11 +2,7 @@
   <div>
     <div class="tabs">
       <ul class="tabs-list">
-<<<<<<< HEAD
         <li v-for="tab in tabs" :key="tab.name" :class="['tabs-list-item']">
-=======
-        <li v-for="tab in tabs" :class="['tabs-list-item']">
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
           <a
             :class="[ tab.isActive ? 'tabs-list-item--active':'' , 'tabs-list-item-link']"
             href="#"
@@ -24,11 +20,7 @@
 
 <script>
 export default {
-<<<<<<< HEAD
   name: 'tabs',
-=======
-  name: "tabs",
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
   data() {
     return { tabs: [] };
   },
@@ -38,17 +30,10 @@ export default {
   methods: {
     selectTab(selectedTab) {
       this.tabs.forEach(tab => {
-<<<<<<< HEAD
         tab.isActive = tab.name === selectedTab.name;
       });
     },
   },
-=======
-        tab.isActive = tab.name == selectedTab.name;
-      });
-    }
-  }
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 };
 </script>
 

@@ -14,20 +14,14 @@
 </template>
 
 <script>
-<<<<<<< HEAD
 import IconSearch from '../icons/IconSearch';
 import IconClose from '../icons/IconClose';
 
-=======
-import IconSearch from "../icons/IconSearch";
-import IconClose from "../icons/IconClose";
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 export default {
   components: { IconSearch, IconClose },
   data() {
     return {
       movies: null,
-<<<<<<< HEAD
       request: '',
       endpoint: 'http://www.omdbapi.com/?plot=full&apikey=e52c6e3',
     };
@@ -39,28 +33,11 @@ export default {
       this.request = '';
     },
   },
-=======
-      request: "",
-      endpoint: "http://www.omdbapi.com/?plot=full&apikey=e52c6e3"
-    };
-  },
-  name: "Search",
-  props: {},
-  methods: {
-    clear() {
-      this.request = "";
-    }
-  }
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang='postcss'>
-<<<<<<< HEAD
-=======
-/* @import "../../assets/_variables.css"; */
->>>>>>> ad8105387c4ba07d226ad209423978aa3dc39c5b
 .nav-search {
   @mixin center;
   align-items: stretch;
