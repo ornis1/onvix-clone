@@ -79,21 +79,21 @@ time,
 mark,
 audio,
 video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-	outline: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  outline: none;
 }
 html {
-	height: 101%;
+  height: 101%;
 }
 body {
-	font-size: 62.5%;
-	line-height: 1;
-	font-family: Arial, Tahoma, Verdana, sans-serif;
+  font-size: 62.5%;
+  line-height: 1;
+  font-family: Arial, Tahoma, Verdana, sans-serif;
 }
 article,
 aside,
@@ -106,40 +106,40 @@ hgroup,
 menu,
 nav,
 section {
-	display: block;
+  display: block;
 }
 ol,
 ul {
-	list-style: none;
+  list-style: none;
 }
 blockquote,
 q {
-	quotes: none;
+  quotes: none;
 }
 blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-	content: '';
-	content: none;
+  content: '';
+  content: none;
 }
 strong {
-	font-weight: bold;
+  font-weight: bold;
 }
 input {
-	outline: none;
+  outline: none;
 }
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 img {
-	border: 0;
-	max-width: 100%;
+  border: 0;
+  max-width: 100%;
 }
 a {
-	text-decoration: none;
+  text-decoration: none;
 }
 a:hover {
-	text-decoration: underline;
+  text-decoration: none;
 }

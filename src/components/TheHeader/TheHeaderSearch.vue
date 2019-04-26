@@ -1,15 +1,13 @@
 <template>
-  <div>
-    <!-- <div :class="[request ? 'is-active': '','nav-search' ]"> -->
-    <div class="nav-search">
-      <button class="btn btn-search">
-        <icon-search class="icon"></icon-search>
-      </button>
-      <button class="btn btn-close" @click="clear">
-        <icon-close class="icon"></icon-close>
-      </button>
-      <input type="text" placeholder="Поиск" v-model="request">
-    </div>
+  <!-- <div :class="[request ? 'is-active': '','nav-search' ]"> -->
+  <div class="nav-search">
+    <button class="btn btn-search">
+      <icon-search class="icon"></icon-search>
+    </button>
+    <button class="btn btn-close" @click="clear">
+      <icon-close class="icon"></icon-close>
+    </button>
+    <input type="text" placeholder="Поиск" v-model="request">
   </div>
 </template>
 
@@ -42,7 +40,9 @@ export default {
   @mixin center;
   align-items: stretch;
   position: relative;
+  flex-grow: 1;
   & input {
+    width: 100%;
     background-color: transparent;
     border: none;
     padding-left: 60px;

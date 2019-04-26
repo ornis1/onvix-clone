@@ -12,7 +12,7 @@
   </div>
 </template>
 <script>
-import Logo from '@/components/icons/IconLogo';
+import Logo from 'icons/IconLogo';
 
 export default {
   name: 'Footer',

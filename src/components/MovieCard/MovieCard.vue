@@ -1,53 +1,72 @@
 <template>
   <div class="wrapper" :class="cardSize">
     <div class="slider-item">
-      <div class="slider-item--backdark"></div>
-      <TopIcons/>
-      <div v-show="movie.hdx" class="slider-item-hdx">HDX</div>
+      <div v-show="cardSize==='big_poster'" class="slider-item--backdark"></div>
+      <MovieCardTopIcons/>
+      <div v-show="true" class="slider-item-hdx">HDX</div>
       <div class="slider-item-img">
-        <Hover :id="movie.id"/>
-        <Watched v-if="watched.includes(movie.id)"/>
-        <Footer :year="movie.year" :rating="movie.rating_kinopoisk"/>
-        <img v-bind:src="imgLink(cardSize)">
+        <MovieCardHover :id="movie.id"/>
+        <MovieCardWatched v-if="watched.includes(movie.id)"/>
+        <MovieCardFooter :year="movieYear" :rating="movie.vote_average"/>
+
+        <img
+          class="slider-item-img__img"
+          src="../../assets/img/1px.gif"
+          :style="{backgroundImage: `url(${img})`}"
+        >
+        <!-- <img class="slider-item-img__img" :src="imgSrc"> -->
       </div>
-      <div class="slider-item-title">{{movie.title_ru}}</div>
+      <div class="slider-item-title">{{movie.title}}</div>
     </div>
   </div>
 </template>
 <script>
-import Hover from 'MovieCard/Hover';
-import TopIcons from 'MovieCard/TopIcons';
-import Watched from 'MovieCard/Watched';
-import Footer from 'MovieCard/Footer';
+import MovieCardHover from 'MovieCard/MovieCardHover';
+import MovieCardTopIcons from 'MovieCard/MovieCardTopIcons';
+import MovieCardWatched from 'MovieCard/MovieCardWatched';
+import MovieCardFooter from 'MovieCard/MovieCardFooter';
+import IconWatch from 'icons/IconWatchRegular';
+import { ApiMixin } from 'Mixins/ApiMixin';
 
 export default {
   name: 'MovieCard',
-  components: { Hover, TopIcons, Watched, Footer },
-  data() {
-    return {
-      endpoint: 'https://prisonbreak.site',
-    };
+  components: {
+    IconWatch,
+    MovieCardHover,
+    MovieCardTopIcons,
+    MovieCardWatched,
+    MovieCardFooter,
   },
-  beforeDestroy() {
-    this.endpoint = null;
+  mixins: [ApiMixin],
+  props: {
+    watched: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+    cardSize: String,
+    movie: Object,
   },
-  props: { watched: Array, cardSize: String, movie: Object },
-  methods: {
-    imgLink(cardSize) {
-      if (cardSize === 'poster') {
-        return this.endpoint + this.movie.poster.small;
+  computed: {
+    movieYear() {
+      return Number(this.movie.release_date.slice(0, 4));
+    },
+    img() {
+      if (this.cardSize === 'poster' && this.movie.poster_path) {
+        return this.$_ApiMixin_getImg(this.movie.poster_path, 'w300');
       }
-      if (cardSize === 'big_poster') {
-        return this.endpoint + this.movie.big_poster.small;
+      if (this.cardSize === 'big_poster' && this.movie.backdrop_path) {
+        return this.$_ApiMixin_getImg(this.movie.backdrop_path, 'w400');
       }
-      return 'https://im2.ezgif.com/tmp/ezgif-2-93587a182941.gif';
+      return 'https://magauto102.ru/wp-content/uploads/2017/09/noimg.jpg';
     },
   },
 };
 </script>
 
-<style lang="postcss">
-@import '../../styles/_colors.css';
+<style lang="postcss" scoped>
+@import '../../assets/styles/_colors.css';
 .poster {
   width: 183px;
   height: 346px;
@@ -62,6 +81,11 @@ export default {
       height: 100%;
       padding: 0;
       margin: 0;
+      &__img {
+        background-repeat: no-repeat;
+        background-size: cover;
+        /* background-origin: 0 0; */
+      }
       &-footer {
         visibility: visible;
         opacity: 1;
@@ -124,13 +148,18 @@ export default {
   transition: 0.25s transform cubic-bezier(0.175, 0.885, 0.32, 1.275);
   z-index: 1;
   &--backdark {
-    z-index: 4;
+    z-index: 2;
     position: absolute;
     display: block;
     width: 100%;
-    height: 75%;
-    background: rgba(0, 0, 0, 0.9);
-    visibility: hidden;
+    height: 100%;
+    /* background: rgba(0, 0, 0, 0.9); */
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.1) 50%,
+      rgba(0, 0, 0, 0.6) 80%
+    );
+    /* visibility: hidden; */
   }
   &:hover {
     transform: scale(1);
@@ -176,7 +205,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    & img {
+    &__img {
       position: absolute;
       background-position: center center;
       background-repeat: no-repeat;

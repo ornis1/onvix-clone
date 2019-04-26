@@ -2,85 +2,77 @@
   <div class="flex-container">
     <div class="media">
       <div class="image">
-        <img v-bind:src="imgLink" alt>
-        <div class="icons">
-          <a href="#">
-            <icon-star class="star"/>
-          </a>
-          <a href="#">
-            <icon-clock class="clock"/>
-          </a>
-          <a href="#">
-            <icon-watched class="watched"/>
-          </a>
-        </div>
+        <img :src="$_ApiMixin_getImg(movie.poster_path)" alt>
+        <ActiveIcons class="icons"/>
       </div>
       <!-- /.image -->
-      <button class="btn btn-gradient">
-        <a href="#">Смотреть</a>
-      </button>
+      <base-button color="gradient">Смотреть</base-button>
       <!-- /.btn btn-gradient -->
-      <button class="btn btn-trailer">
-        <a href="#">Трейлер</a>
-      </button>
+      <base-button color="normal">Трейлер</base-button>
       <!-- /.btn btn-trailer -->
     </div>
     <!-- /.media -->
     <div class="content">
-      <div class="title">{{movie.title_ru}}</div>
+      <radial-progress-bar
+        class="progress-bar"
+        :diameter="94"
+        :completed-steps="movie.vote_average"
+        :total-steps="10"
+        :animateSpeed="10"
+        :strokeWidth="2"
+        :startColor="'#ffc000'"
+        :stopColor="'#ffc000'"
+        :innerStrokeColor="'rgba(255,255,255,.05)'"
+      >
+        <span class="progress-bar-vote">{{ movie.vote_average }}</span>
+        <span class="progress-bar-rating">Рейтинг</span>
+      </radial-progress-bar>
+      <div class="title">
+        <h1>{{movie.title}}</h1>
+      </div>
       <!-- /.title -->
 
       <div class="subtitle">
-        <h3>{{movie.title_en}}</h3>
+        <h3>{{movie.original_title}}</h3>
       </div>
       <!-- /.subtitle -->
 
       <div class="caption">
         <p>
           Режиссер:
-          <a href="#">Жан-Марк Валле</a>
+          <router-link
+            :to="`/director/${producer.id}`"
+            class="caption-producer"
+            v-for="producer in producersNames"
+            :key="producer.id"
+          >
+            {{producer.name}}&nbsp;
+            <!-- <span v-for="producer in producers.inEnglish" :key="producer.id">{{producer.name}}</span> -->
+            <!-- <span v-for="producer in producers.inRussian" :key="producer.id">{{producer.name}}</span> -->
+          </router-link>
         </p>
-        <p>2015 США драма</p>
         <p>
-          <a href="#">Кинопоиск</a>
-          : {{Math.floor(movie.rating_kinopoisk*10)/10}} &nbsp;(47 631)&nbsp;
-          <a
-            href="#"
-          >IMDb</a>
-          : {{movie.rating_imdb}}&nbsp; (76 140)
+          <span>{{releaseDate}}</span>
           <span
-            v-if="movie.rating_tomatoes"
-          >Rotten Tomatoes: {{movie.rating_tomatoes}}%</span>
+            v-for="country in movie.production_countries"
+            :key="country.name"
+          >{{country.iso_3166_1}} &nbsp;</span>
+
+          <router-link
+            v-for="genre in movie.genres"
+            :key="genre.id"
+            to="/genre/28"
+          >{{genre.name}} &nbsp;</router-link>
+        </p>
+        <p>
+          <!-- <a href="#">Кинопоиск</a>
+          : {{movie.rating}} &nbsp;(47 631)&nbsp;-->
+          <a href="#">IMDb</a>
+          : {{movie.vote_average}}&nbsp; ({{votes}})
         </p>
       </div>
       <!-- /.caption -->
-      <tabs>
-        <tab name="Описание" :selected="true">
-          <ul>
-            <li>{{movie.description}}</li>
-          </ul>
-        </tab>
-        <tab name="Актеры">
-          <ul>
-            <li>{{movie.description}}</li>
-          </ul>
-        </tab>
-        <tab name="Озвучки">
-          <ul>
-            <li>{{movie.description}}</li>
-          </ul>
-        </tab>
-        <tab v-if="movie.type !== 'movie'" name="Серии">
-          <ul>
-            <li>{{movie.description}}</li>
-          </ul>
-        </tab>
-        <tab name="Вам понравится">
-          <ul>
-            <li>{{movie.description}}</li>
-          </ul>
-        </tab>
-      </tabs>
+      <Tabs :overview="movie.overview" :actors="{...cast}"/>
     </div>
     <!-- /.content -->
   </div>
@@ -94,32 +86,114 @@
 
 
 <script>
-// import Vue from "vue";
-import data from '../../assets/movies.json';
+/*eslint-disable */
+import axios from 'axios';
+// import data from '../../assets/movies.json';
 /* Import Icons */
-import IconWatched from '../icons/IconWatched';
-import IconStar from '../icons/IconStarSolid';
-import IconClock from '../icons/IconClockSolid';
+import ActiveIcons from 'icons/ActiveIcons';
+import { ApiMixin } from 'Mixins/ApiMixin.js';
 /*  */
-import Tab from './Tab';
-import Tabs from './Tabs';
+import BaseButton from 'Buttons/BaseButton';
+import Tabs from './MovieDescriptionTabs';
+import RadialProgressBar from '../../../node_modules/vue-radial-progress/dist/vue-radial-progress.min.js';
 
 export default {
   name: 'MovieDescription',
-  components: { Tab, Tabs, IconWatched, IconStar, IconClock },
+  mixins: [ApiMixin],
+  components: {
+    Tabs,
+
+    ActiveIcons,
+    BaseButton,
+    RadialProgressBar,
+  },
   data() {
     return {
-      endpoint: 'https://prisonbreak.site/',
+      completedSteps: 7,
+      totalSteps: 10,
       movie: {},
+      cast: {},
+      crew: {},
+      producers: { inEnglish: [], inRussian: [] },
+      votes: null,
     };
   },
   created() {
-    this.movie = data.materials[2];
-  },
+    /* Получаем id фильма из параметров роута */
+    const { id } = this.$route.params;
 
+    /* Создаем строку запроса по id фильма с помощью метода из миксины */
+    const request = this.$_ApiMixin_getMovie(id);
+
+    /* Делаем запрос и результат сохраняем */
+    axios.get(request).then(response => {
+      this.movie = response.data;
+    });
+
+    /* Запрос для получения информации о составе фильма */
+    axios
+      .get(this.$_ApiMixin_getCast(id))
+      .then(response => {
+        // this.cast = { ...response.data.cast };
+        this.cast = response.data.cast;
+
+        this.crew = response.data.crew;
+      })
+      .then(() => {
+        /* Получаем только режиссеров */
+        this.crew.map(person => {
+          if (person.job === 'Director') {
+            this.producers.inEnglish.push({ name: person.name, id: person.id });
+          }
+        });
+      })
+      .then(() => {
+        /* Так как в ответе приходят имена на английском
+        Делаем запрос на каждого режиссера и получаем русскую версию имени если она есть*/
+
+        this.producers.inEnglish.map(person => {
+          axios(this.$_ApiMixin_getPerson(person.id)).then(response => {
+            const names = response.data.also_known_as;
+            const id = response.data.id;
+
+            for (let i = 0; i < names.length; i++) {
+              const name = names[i];
+              /* Если первая буква имени А-Я , то это русское имя */
+              const code = name.charCodeAt(0);
+              if (code >= 1040 && code <= 1071) {
+                this.producers.inRussian.push({ name, id });
+              }
+            }
+          });
+        });
+      });
+  },
+  methods: {
+    setVotes() {
+      this.votes = this.movie.vote_count
+        .toString()
+        .replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, ' ');
+    },
+  },
+  watch: {
+    cast() {
+      console.log(typeof this.cast);
+    },
+    movie() {
+      this.setVotes();
+    },
+  },
   computed: {
-    imgLink() {
-      return this.endpoint + this.movie.poster.medium;
+    producersNames() {
+      const eng = this.producers.inEnglish;
+      const rus = this.producers.inRussian;
+      return rus.length ? rus : eng;
+    },
+    releaseDate() {
+      let date = this.movie.release_date;
+      if (date) {
+        return date.slice(0, 4);
+      }
     },
   },
 };
@@ -130,7 +204,30 @@ export default {
 .b {
   display: none;
 }
-
+a {
+  color: white;
+}
+.caption-producer {
+  padding: 0 5px;
+  position: relative;
+  &:last-child {
+    &::before {
+      display: none;
+    }
+  }
+  &::before {
+    display: block;
+    content: '';
+    height: 5px;
+    width: 5px;
+    background-color: #fff;
+    border-radius: 50%;
+    right: -1px;
+    top: 6px;
+    opacity: 0.15;
+    position: absolute;
+  }
+}
 .flex-container {
   display: flex;
   width: 1000px;
@@ -166,50 +263,11 @@ export default {
       position: relative;
     }
     .icons {
-      position: absolute;
+      width: 70%;
       bottom: 0;
-      z-index: 100;
       margin-bottom: 15px;
 
-      width: 70%;
-
-      display: flex;
       justify-content: space-around;
-      & a {
-        /* background-color: rgba(255, 255, 255, 0.2); */
-        border: 2px solid rgba(255, 255, 255, 0.4);
-        border-radius: 50%;
-        color: #fff;
-        @mixin center;
-        height: 30px;
-        width: 30px;
-        &:hover {
-          background-color: #fff;
-          .star,
-          .clock,
-          .watched {
-            color: #000;
-            background-color: transparent;
-          }
-        }
-        .star,
-        .clock,
-        .watched {
-          background-color: transparent;
-        }
-        .star {
-          width: 15px;
-          height: 15px;
-        }
-        .clock {
-          height: 17px;
-          width: 17px;
-        }
-        .watched {
-          width: 22px;
-          height: 22px;
-        }
-      }
     }
   }
   .btn {
@@ -245,6 +303,26 @@ export default {
   font-size: 14px;
   line-height: 2;
   margin-left: auto;
+  & a:hover {
+    color: #ffc000;
+  }
+  & .progress-bar {
+    /* position: relative; */
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    &-vote {
+      position: absolute;
+      font-size: 30px;
+      color: #fff;
+      top: 10px;
+    }
+    &-rating {
+      position: absolute;
+      bottom: 15px;
+      font-size: 12px;
+    }
+  }
   & .title {
     font-size: 24px;
     color: #fff;

@@ -1,36 +1,37 @@
  <template>
   <div id="app">
-    <router-link to="/Login">Login</router-link>
-    <router-link to="/MovieDescription">MovieDescription</router-link>
+    <TheHeader/>
+    <router-link :to="{name: 'login'}">Login</router-link>
+    <router-link :to="{name:'movie', params: {id:30}}">MovieDescription</router-link>
     <router-link to="/">App</router-link>
-    <Header/>
+    <router-link :to="{name: 'result', params: {id:28}}">genre</router-link>
+
     <router-view></router-view>
-    <Footer/>
+    <!-- <TheFooter/> -->
   </div>
 </template>
 
 <script>
-import MainScreen from 'MainScreen';
-import Header from 'Header/Header';
+import TheHeader from 'TheHeader/TheHeader';
 import Slider from 'Slider/Slider';
-import Footer from 'Footer';
+import TheFooter from 'TheFooter';
 
 export default {
-  components: { MainScreen, Header, Slider, Footer },
+  components: { TheHeader, Slider, TheFooter },
+  created() {
+    this.$store.dispatch('loggedUser');
+  },
 };
 </script>
 <style lang='postcss'>
 @import url('./assets/styles/_normalize.css');
 @import url('./assets/styles/_mixins.css');
 @import url('./assets/styles/_colors.css');
+/* @import url('./assets/styles/_customGlobal.css'); */
 body {
   background-color: $main;
 }
-html {
-  height: 100vh;
-}
 #app {
-  height: 100%;
   margin: 0 auto;
   padding-top: 120px;
   display: flex;

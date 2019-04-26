@@ -7,16 +7,12 @@
 </template>
 
 <script>
-import Header from 'Header/Header';
 import Slider from 'Slider/Slider';
-import Footer from 'Footer';
 
 export default {
   name: 'Main',
   components: {
-    Header,
     Slider,
-    Footer,
   },
 };
 </script>

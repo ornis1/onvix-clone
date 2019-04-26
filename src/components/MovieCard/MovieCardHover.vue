@@ -1,31 +1,28 @@
 <template>
   <div class="hover">
     <div class="hover-buttons">
-      <button-primary :options="{margin: '10px 0'}" color="gradient">
-        <router-link to="/">Смотреть</router-link>
-      </button-primary>
-      <button-primary :options="{margin: '10px 0'}" color="normal">
-        <router-link :to="linkPath">Описание</router-link>
-      </button-primary>
+      <router-link to="/">
+        <base-button :options="{margin: '10px 0'}" color="gradient">Смотреть</base-button>
+      </router-link>
+      <router-link :to="{name: 'movie', params: {id: id}}">
+        <base-button :options="{margin: '10px 0'}" color="normal">Описание</base-button>
+      </router-link>
     </div>
   </div>
 </template>
 
 <script>
-import ButtonPrimary from 'Buttons/Button';
+// import BaseButton from 'Buttons/BaseButton';
+import BaseButton from '../Buttons/BaseButton';
+import MovieCardTopIcons from 'MovieCard/MovieCardTopIcons';
 
 export default {
-  name: 'Hover',
-  components: { ButtonPrimary },
+  name: 'MovieCardHover',
+  components: { BaseButton, MovieCardTopIcons },
   props: {
     id: {
       type: [String, Number],
       requare: true,
-    },
-  },
-  computed: {
-    linkPath() {
-      return '/';
     },
   },
 };
@@ -49,6 +46,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    width: 146px;
     margin: 0 auto;
   }
 }

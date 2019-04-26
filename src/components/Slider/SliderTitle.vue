@@ -17,7 +17,7 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-@import url('../../styles/_mixins.css');
+/* @import url('../../styles/_mixins.css'); */
 
 .slider-header-title {
   position: relative;

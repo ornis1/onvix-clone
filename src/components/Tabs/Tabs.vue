@@ -1,18 +1,20 @@
 <template>
   <div>
-    <div class="tabs">
-      <ul class="tabs-list">
-        <li v-for="tab in tabs" :key="tab.name" :class="['tabs-list-item']">
+    <div class="tabs" :class="css.tabs">
+      <ul class="tabs-list" :class="css.ul">
+        <li :class="['tabs-list-item', css.li]" v-for="tab in tabs" :key="tab.name">
           <a
-            :class="[ tab.isActive ? 'tabs-list-item--active':'' , 'tabs-list-item-link']"
+            :class="[ tab.isActive ? 'tabs-list-item--active':'' , 'tabs-list-item-link', css.a]"
             href="#"
             @click.prevent="selectTab(tab)"
+            @mouseover="selectTab(tab)"
           >{{ tab.name }}</a>
         </li>
       </ul>
     </div>
 
     <div class="tabs-details">
+      <pre>{{this.$props.css}}</pre>
       <slot></slot>
     </div>
   </div>
@@ -22,23 +24,40 @@
 export default {
   name: 'tabs',
   data() {
-    return { tabs: [] };
+    return { tabs: [], timerId: null };
+  },
+  props: {
+    css: {
+      type: Object,
+      required: true,
+      default() {
+        return { ul: {}, li: {}, a: {} };
+      },
+    },
   },
   created() {
     this.tabs = this.$children;
   },
   methods: {
     selectTab(selectedTab) {
-      this.tabs.forEach(tab => {
-        tab.isActive = tab.name === selectedTab.name;
-      });
+      const oldId = this.timerId;
+
+      this.timerId = setTimeout(() => {
+        this.tabs.forEach(tab => {
+          tab.isActive = tab.name === selectedTab.name;
+        });
+      }, 500);
+
+      if (this.timerId !== oldId) {
+        clearInterval(oldId);
+      }
     },
   },
 };
 </script>
 
 <style lang='postcss'>
-.tabs {
+/* .tabs {
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   &-list {
     display: flex;
@@ -61,5 +80,5 @@ export default {
 }
 :matches(.content) a {
   color: #fff;
-}
+} */
 </style>

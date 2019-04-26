@@ -2,20 +2,29 @@
   <div class="wrapper">
     <div class="promo">
       <div class="promo-img"></div>
-      <div class="promo-title">Регистрация по промокоду:</div>
+      <div class="promo-title">Регистрация:</div>
       <div class="promo-form">
         <input
-          v-model="promoCode"
-          :class="{error: isErrorR}"
+          v-model="signUpEmail"
           type="text"
-          class="promo-input input btn"
-          placeholder="Ваш промокод"
+          class="email input btn"
+          placeholder="Ваша почта"
+          autocomplete="email"
         >
-        <div v-show="isErrorR" class="promo-input-error error">Промо код не найден</div>
-        <div @click="signUp" class="promo-btn btn">Регистрация</div>
+        <div class="login-form-body-error error">{{error}}</div>
+        <input
+          v-model="signUpPassword"
+          type="password"
+          class="password input btn"
+          placeholder="Пароль"
+          autocomplete="password"
+        >
+        <!-- <div v-show="isErrorR" class="promo-input-error error">Промо код не найден</div> -->
+        <div @click="signUp()" class="promo-btn btn">Регистрация</div>
+        <div @click="signOut()" class="promo-btn btn">Выйти</div>
       </div>
     </div>
-    <div class="login-form">
+    <form class="login-form">
       <div class="login-form-header">
         <h1>Вход для членов клуба</h1>
       </div>
@@ -24,19 +33,19 @@
       >Если у вас проблемы с заходом на сайт через социальные аккаунты, то напишите нам в поддержку - support@onvix.tv</div>
       <div class="login-form-body">
         <input
-          :class="{error: isErrorL}"
-          v-model="email"
+          v-model="signInEmail"
           type="text"
           class="email input btn"
           placeholder="Ваша почта"
+          autocomplete="email"
         >
-        <div v-show="isErrorL" class="login-form-body-error error">Неверные Email или пароль.</div>
+        <!-- <div v-show="isErrorL" class="login-form-body-error error">Неверные Email или пароль.</div> -->
         <input
-          :class="{error: isErrorL}"
-          v-model="password"
+          v-model="signInPassword"
           type="password"
           class="password input btn"
           placeholder="Пароль"
+          autocomplete="password"
         >
         <div class="group">
           <label for="ch">
@@ -45,37 +54,74 @@
           </label>
           <a href="#">Забыл пароль?</a>
         </div>
-        <button @click="signIn()" class="btn gradient">Войти на сайт</button>
+        <button
+          :options="{height: '46px', fontSize: '18px'}"
+          @click.prevent="signIn()"
+          class="btn gradient"
+        >Войти на сайт</button>
       </div>
-    </div>
+    </form>
+    <pre>{{this.$store.state.user}}</pre>
   </div>
 </template>
 <script>
+import BaseButton from 'Buttons/BaseButton';
+import firebase from 'firebase/app';
+import { log } from 'util';
+
 export default {
   name: 'Login',
+  components: { BaseButton },
   data() {
     return {
       promoCode: '',
-      email: '',
-      password: '',
-      isErrorR: false,
-      isErrorL: false,
+      signUpEmail: 'kappa@gmail.com',
+      signUpPassword: '123123',
+
+      signInEmail: 'kappa@gmail.com',
+      signInPassword: '123123',
+      user: null,
     };
   },
+  created() {},
+  computed: {
+    error() {
+      return this.$store.state.common.error;
+    },
+  },
   methods: {
-    signIn() {
-      if (this.password && this.email) {
-        this.isErrorL = false;
-        return;
+    signOut() {
+      this.$store.dispatch('signOut');
+    },
+    checkEmail(email) {
+      var r = email.match(/^[0-9a-z-\.]+\@[0-9a-z-]{2,}\.[a-z]{2,}$/i);
+      if (!r) {
+        this.$store.dispatch('setError', 'Уверены что email введен верно?');
+        return false;
       }
-      this.isErrorL = true;
+      this.$store.dispatch('clearError');
+      return true;
     },
     signUp() {
-      if (this.promoCode) {
-        this.isErrorR = false;
-        return;
+      const check = this.checkEmail(this.signUpEmail);
+      if (check) {
+        const user = { email: this.signUpEmail, password: this.signUpPassword };
+        this.$store.dispatch('registerUser', user).then(() => {
+          // this.$router.push('/');
+        });
       }
-      this.isErrorR = true;
+    },
+    signIn() {
+      const check = this.checkEmail(this.signInEmail);
+      console.log(check);
+
+      if (check) {
+        const user = { email: this.signInEmail, password: this.signInPassword };
+        this.$store.dispatch('loginUser', user).then(() => {
+          console.log('ЗАЛОГИНЕЛСЯ');
+          this.$router.push('/');
+        });
+      }
     },
   },
 };
@@ -98,6 +144,7 @@ export default {
   }
   & .promo {
     background-color: #1a1a1a;
+    padding: 0 60px;
     &-form {
       display: flex;
       flex-direction: column;

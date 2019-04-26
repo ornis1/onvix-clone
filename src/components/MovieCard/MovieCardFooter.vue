@@ -1,13 +1,13 @@
 <template>
   <div class="slider-item-img-footer">
-    Кинопоиск: {{Math.round(rating*10)/10}}&nbsp;&nbsp;
+    IMDb: {{rating}} &nbsp;&nbsp;
     <span class="info">/&nbsp;{{year}}</span>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Footer',
+  name: 'MovieCardFooter',
   props: {
     year: Number,
     rating: Number,
@@ -30,6 +30,7 @@ export default {
 
   font-size: 11px;
   color: white;
+  color: #fff;
   visibility: hidden;
 }
 </style>

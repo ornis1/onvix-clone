@@ -32,15 +32,15 @@ export default {
   justify-content: center;
   align-items: center;
 
-  width: 146px;
   height: 32px;
+  width: 100%;
   box-sizing: border-box;
 
   font-size: 14px;
   border-radius: 3px;
 
-  opacity: 0.9;
-  transition: 0.2s ease-out;
+  opacity: 0.8;
+  transition: 0.1s ease-out;
   cursor: pointer;
 
   & a {
@@ -70,8 +70,10 @@ export default {
 .normal {
   /* border: 1px solid white; */
   background: #fff;
-  color: #000;
   z-index: inherit;
+  & a {
+    color: #000;
+  }
   &:hover {
     opacity: 1;
     background-color: #fff;
