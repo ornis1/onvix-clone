@@ -4,30 +4,24 @@
       <router-link class="navigation-item logo" to="/">
         <Logo/>
       </router-link>
-      <Catalog class="navigation-item" v-popover:catalog/>
-      <popover name="catalog">
-        <DropdownCatalog/>
-      </popover>
+      <Catalog class="navigation-item" @click.native.stop="openDropdown('catalog')"/>
+      <DropdownCatalog v-if="catalog" @click.native.stop="openDropdown('catalog')"/>
+
       <Search class="navigation-item"/>
-      <base-header-icon class="navigation-item" v-popover:replay>
+      <base-header-icon class="replay" @click.native.stop="openDropdown('replay')">
         <icon-replay></icon-replay>
       </base-header-icon>
-      <popover name="replay">
-        <DropdownReplay/>
-      </popover>
+      <DropdownReplay v-if="replay" @click.native.stop="openDropdown('replay')"/>
+
       <base-header-icon class="navigation-item">
         <icon-bell></icon-bell>
       </base-header-icon>
-      <base-header-icon class="navigation-item">
-        <img
-          src="https://static-cdn.jtvnw.net/jtv_user_pictures/bobross-profile_image-0b9dd167a9bb16b5-300x300.jpeg"
-          alt
-          srcset
-        >
+
+      <base-header-icon class="navigation-item" @click.native.stop="openDropdown('profile')">
+        <img :src="userIMG" alt srcset>
       </base-header-icon>
+      <DropdownProfile v-if="profile" @click.native.stop="openDropdown('profile')"/>
     </nav>
-    <!-- <tooltip/> -->
-    <!-- <catalog-dropdown></catalog-dropdown> -->
   </header>
 </template>
 
@@ -36,17 +30,54 @@ import Logo from 'icons/IconLogo';
 import IconBell from 'icons/IconBell';
 import IconReplay from 'icons/IconReplay';
 
+import DropdownCatalog from 'TheHeader/TheHeaderDropdownCatalog';
+import DropdownReplay from 'TheHeader/TheHeaderDropdownReplay';
+import DropdownProfile from 'TheHeader/TheHeaderDropdownProfile';
+
 import TheHeaderCatalog from './TheHeaderCatalog';
 import TheHeaderSearch from './TheHeaderSearch';
 
 import BaseHeaderIcon from './BaseHeaderIcon';
-import DropdownCatalog from 'TheHeader/TheHeaderDropdownCatalog';
-import DropdownReplay from 'TheHeader/TheHeaderDropdownReplay';
 
 export default {
+  data() {
+    return {
+      catalog: false,
+      replay: false,
+      notification: false,
+      profile: false,
+    };
+  },
+  mounted() {
+    document.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.closeAll();
+    });
+  },
+  computed: {
+    userIMG() {
+      const user = this.$store.getters.user;
+      if (user === null) return '';
+      return user.photoUrl;
+    },
+  },
+  methods: {
+    closeAll() {
+      this.catalog = false;
+      this.replay = false;
+      this.notification = false;
+      this.profile = false;
+    },
+    openDropdown(target) {
+      this.closeAll();
+
+      this.$data[target] = true;
+    },
+  },
   components: {
     DropdownCatalog,
     DropdownReplay,
+    DropdownProfile,
     BaseHeaderIcon,
     IconBell,
     IconReplay,
@@ -61,22 +92,15 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='postcss'>
 @import '../../assets/styles/_colors.css';
-div[data-popover='catalog'],
-div[data-popover='replay'] {
-  padding: 0;
-  width: 0;
-  transform: translateY(-6px);
-  position: absolute;
-  &::before {
-    display: none;
+.replay:hover {
+  .replay-dropdown {
+    display: block;
   }
 }
-div[data-popover='catalog'] {
-  width: 400px;
-  height: 400px;
-}
-.catalog-dropdown {
-  display: flex;
+.replay-dropdown,
+.profile-dropdown,
+.notification-dropdown {
+  display: none;
 }
 .logo {
   width: 200px;
@@ -84,6 +108,8 @@ div[data-popover='catalog'] {
   box-sizing: border-box;
   align-items: center;
   justify-content: center;
+  display: flex;
+  align-self: stretch;
 }
 .header {
   display: flex;
@@ -102,15 +128,11 @@ div[data-popover='catalog'] {
 .navigation {
   margin: 0 auto;
   display: flex;
+
+  position: relative;
+
   max-width: 1600px;
   min-width: 900px;
   width: 100%;
-  &-item {
-    display: flex;
-    align-self: stretch;
-    &:hover {
-      background-color: $hover;
-    }
-  }
 }
 </style>

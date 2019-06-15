@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a class="icon" href="#">
+    <a class="icon" href="#" @click="isActive = !isActive" :class="[isActive ? 'isActive': '']">
       <slot></slot>
     </a>
   </div>
@@ -8,19 +8,33 @@
 
 <script>
 export default {
-  name: 'Profile',
+  name: 'BaseHeaderIcon',
+  props: { selected: { default: false } },
+  data() {
+    return { isActive: false };
+  },
+  mounted() {
+    this.isActive = this.selected;
+  },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style  lang='postcss'>
+<style  lang='postcss' scoped>
+@import '../../assets/styles/_colors.css';
 .icon {
   cursor: pointer;
   display: flex;
   height: 66px;
   width: 66px;
   color: white;
-  @mixin center;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    background-color: $hover;
+  }
 }
 .icon:active,
 .icon:focus {

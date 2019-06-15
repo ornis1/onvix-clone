@@ -8,9 +8,9 @@
           alt
         >
         <div class="dropdown-content-info">
-          <div class="dropdown--string">Игра престолов</div>
-          <div class="dropdown--string dropdown--grey">5 сезон 5 серия</div>
-          <div class="dropdown--string dropdown--grey">19 минута 13 секунда</div>
+          <span class="dropdown--string">Игра престолов</span>
+          <span class="dropdown--string dropdown--grey">5 сезон 5 серия</span>
+          <span class="dropdown--string dropdown--grey">19 минута 13 секунда</span>
         </div>
       </div>
       <div class="dropdown-footer">
@@ -33,6 +33,9 @@ export default {
 
 <style lang="postcss" scoped>
 .dropdown {
+  position: absolute;
+  right: 0;
+  top: 66px;
   width: 260px;
   height: 155px;
   background-color: #fff;

@@ -2,10 +2,10 @@
   <div class="hover">
     <div class="hover-buttons">
       <router-link to="/">
-        <base-button :options="{margin: '10px 0'}" color="gradient">Смотреть</base-button>
+        <base-button class="hover-btn" color="gradient">Смотреть</base-button>
       </router-link>
-      <router-link :to="{name: 'movie', params: {id: id}}">
-        <base-button :options="{margin: '10px 0'}" color="normal">Описание</base-button>
+      <router-link :to="{name: 'movie', params: {title: movie.title, id: movie.id, movie: movie}}">
+        <base-button class="hover-btn" color="normal-outline">Описание</base-button>
       </router-link>
     </div>
   </div>
@@ -20,8 +20,8 @@ export default {
   name: 'MovieCardHover',
   components: { BaseButton, MovieCardTopIcons },
   props: {
-    id: {
-      type: [String, Number],
+    movie: {
+      type: [Object],
       requare: true,
     },
   },
@@ -42,6 +42,12 @@ export default {
     #24b2d8 100%
   );
   background-repeat: no-repeat;
+  &-btn {
+    margin: 10px 0;
+    height: 32px;
+    width: 100%;
+    font-size: 14px;
+  }
   &-buttons {
     display: flex;
     flex-direction: column;

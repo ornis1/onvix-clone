@@ -1,10 +1,9 @@
 <template>
   <div class="slider">
     <div class="slider-header">
-      <slider-title>{{title}}</slider-title>
+      <slider-title :to="to">{{title}}</slider-title>
       <div class="slider-header-buttons">
         <!-- Optional controls -->
-        <!-- Доделать потом -->
         <router-link class="show-all" :to="'/collections/popular'">Все</router-link>
         <div
           :class="[{'swiper-button-prev--blocked':isBlocked}, 'swiper-button-prev']"
@@ -16,13 +15,17 @@
     </div>
     <!-- /.slider-header -->
     <!-- slides -->
-    <swiper class :options="swiperOption" ref="mySwiper" v-if="load">
-      <swiperSlide v-for="(movie,index) in movies" :key="index" class="r">
-        <MovieCard class="slide d-flex" :watched="watched" :movie="movie" :cardSize="cardSize"></MovieCard>
-        <div class="slide-placeholder">
-          <img src="../../assets/img/eye.png" alt srcset>
-          <!-- <IconWatch class="slider-placeholder-img"/> -->
-        </div>
+    <swiper class :options="swiperOption" ref="mySwiper">
+      <swiperSlide
+        v-for="(movie, index) in movies"
+        :key="`${movie.title}${movie.key || index}`"
+        class="r"
+      >
+        <MovieCard class="slide d-flex" :btnClose="true" :movie="movie" :cardSize="cardSize"></MovieCard>
+      </swiperSlide>
+
+      <swiperSlide v-for="n in 8" :key="n*Math.random()" class="r">
+        <MovieCardPlaceholder :cardSize="cardSize"/>
       </swiperSlide>
     </swiper>
   </div>
@@ -31,24 +34,20 @@
 <script>
 // GET 'https://api.themoviedb.org/3/discover/movie?api_key=6c789b97c269e57a2df3bcbc30f04173&language=ru&sort_by=popularity.desc&include_adult=false&include_video=false&page=1';
 // import 'swiper/dist/css/swiper.css';
+import axios from 'axios';
+import Vue from 'vue';
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
 import MovieCard from 'MovieCard/MovieCard';
+import MovieCardPlaceholder from 'MovieCard/MovieCardPlaceholder';
 import IconArrow from 'icons/IconArrowUp';
 import SliderTitle from './SliderTitle';
-import data from '../../assets/movies.json';
-import axios from 'axios';
-import { ApiMixin } from 'Mixins/ApiMixin';
 
 export default {
-  mixins: [ApiMixin],
   data() {
     return {
       load: false,
-      movies: {},
-      watched: [164651, 164620, 164775, 164429, 164669],
       realIndex: null,
       isBlocked: true,
-
       currentPage: 1,
       activeIndex: 1,
       totalMovies: 0,
@@ -74,14 +73,26 @@ export default {
   },
   props: {
     cardSize: { type: String, required: true, default: 'poster' },
+    to: { type: Object, required: true },
+    movies: {
+      type: [Array, Object],
+      required: false,
+      default() {
+        return [];
+      },
+    },
     title: String,
   },
   name: 'Slider',
-  components: { MovieCard, swiper, swiperSlide, IconArrow, SliderTitle },
-  created() {
-    this.loadMovies();
-    this.load = true;
+  components: {
+    MovieCard,
+    MovieCardPlaceholder,
+    swiper,
+    swiperSlide,
+    IconArrow,
+    SliderTitle,
   },
+
   computed: {
     swiper() {
       return this.$refs.mySwiper.swiper;
@@ -98,14 +109,8 @@ export default {
   },
   methods: {
     loadMovies() {
-      let a = `https://api.themoviedb.org/3/discover/movie?api_key=6c789b97c269e57a2df3bcbc30f04173&language=ru&sort_by=popularity.desc&include_adult=false&include_video=false&page=${
-        this.currentPage
-      }`;
-      axios.get(a).then((response) => {
-        this.currentPage++;
-        this.totalMovies += response.data.results.length;
-        this.movies = [...this.movies, ...response.data.results];
-      });
+      this.currentPage++;
+      this.$emit('loadMovies', { from: this.from, page: this.currentPage });
     },
     incrRealIndex(step) {
       if (!(this.realIndex + step >= this.movies.length)) {
@@ -123,7 +128,8 @@ export default {
     slideForward() {
       this.swiper.slideTo(this.swiper.activeIndex + this.step, 500, false);
       this.incrRealIndex(this.step);
-      this.realIndex > this.totalMovies - this.step - 3
+
+      this.realIndex >= this.movies.length - this.step - 6
         ? this.loadMovies()
         : '';
     },
@@ -140,52 +146,25 @@ export default {
 .r {
   position: relative;
 }
-.slide-placeholder {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #1d1d1d;
-  width: 180px;
-  height: 255px;
-  /* width: 100%; */
-  /* height: 100%; */
-
-  /* box-sizing: border-box; */
-  /* padding: 94px 50px; */
-  /* margin: 25px 20px 0px; */
-  margin-left: 10px;
-  margin-top: 15px;
-  transform: scale(0.9);
-  top: 0;
-  left: 0;
-  position: absolute;
-  /* z-index: 1000; */
-
-  border: 1px dashed #3d3d3d;
-  border-radius: 3px;
-  &-img {
-    color: #777;
-    width: 70px;
-    height: 70px;
-  }
-}
 .swiper-wrapper {
   display: flex;
   overflow: hidden;
 }
 .slider {
+  height: 360px;
   width: 1600px;
   margin: 0 auto;
+  margin-bottom: 20px;
   display: inline-block;
   overflow: hidden;
 
   &-header {
     margin: 0 auto;
-    height: 80px;
+    /* height: 80px; */
     display: flex;
     width: 100%;
     align-items: center;
-    padding: 0 30px;
+    padding: 0 30px 10px;
     box-sizing: border-box;
     justify-content: space-between;
     font-size: 24px;
@@ -193,7 +172,9 @@ export default {
     &-buttons {
       display: flex;
       & .show-all {
-        @mixin center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         margin-right: 30px;
         background-color: rgba(255, 255, 255, 0.15);
         border-radius: 5px;

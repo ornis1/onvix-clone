@@ -1,10 +1,11 @@
 import firebase from '@firebase/app';
+
 class User {
-  constructor(uid) {
+  constructor(uid, name, email, photoUrl) {
     this.id = uid;
-    // this.name = name;
-    // this.email = email;
-    // this.photoUrl = photoUrl;
+    this.name = name;
+    this.email = email;
+    this.photoUrl = photoUrl;
     // this.emailVerified = emailVerified;
   }
 }
@@ -19,38 +20,61 @@ export default {
     setUser(state, payload) {
       state.user = payload;
     },
+
     /*  setOnline(state, payload) {
       state.online = payload;
     }, */
   },
   actions: {
-    async updateProfile(name, pass, email, photo) {
-      if (name) this.updateName(name);
-      if (pass) this.updatePassword(pass);
-      if (name) this.updatePhoto(photo);
-      if (email) this.updateEmail(email);
+    async updateProfile({ dispatch }, { login, password, email, photo }) {
+      console.log('TCL: updateProfile -> login', login);
+      if (login) dispatch('updatelogin', login);
+      if (password) dispatch('updatePassword', password);
+      if (email) dispatch('updateEmail', email);
+      if (photo) dispatch('updatePhoto', photo);
     },
-    /**
+    /** loginUser
      *
      * @param {URL} photo
      */
-    async updatePhoto(photo) {
-      if (!photo) throw new Error();
+    async updatePhoto({ dispatch }, file) {
+      // if (!file) throw new Error();
+
+      // Get current username
       const user = firebase.auth().currentUser;
 
-      user
-        .updateProfile({
-          photoURL: photo,
-        })
-        .then(() => {
-          // Update successful.
-        })
-        .catch((error) => {
-          // An error happened.
+      if (file === null) {
+        // Удаляем url фото на сервере и в store
+        user.updateProfile({ photoURL: null }).then(() => {
+          dispatch('loggedUser');
         });
+        return;
+      }
+
+      // Create a Storage Ref w/ username
+      const storageRef = firebase
+        .storage()
+        .ref(`${user.uid}/profilePicture/${file.name}`);
+
+      // // Upload file
+      storageRef.put(file);
+
+      storageRef.getDownloadURL().then((downloadURL) => {
+        user
+          .updateProfile({
+            photoURL: downloadURL,
+          })
+          .then(() => {
+            dispatch('loggedUser');
+          });
+      });
+      // .catch((error) => {
+      // An error happened.
+      // });
     },
-    async updateName(name) {
+    async updatelogin({ dispatch }, name) {
       const user = firebase.auth().currentUser;
+      console.log('kappa');
 
       user
         .updateProfile({
@@ -58,8 +82,11 @@ export default {
         })
         .then(() => {
           // Update successful.
+          console.log('TCL: updatelogin -> Update successful.');
+          dispatch('loggedUser');
         })
         .catch((error) => {
+          console.error(error);
           // An error happened.
         });
     },
@@ -115,7 +142,7 @@ export default {
       commit('clearError');
       commit('setLoading', true);
       try {
-        //logic
+        // logic
         const user = await firebase
           .auth()
           .createUserWithEmailAndPassword(email, password);
@@ -132,11 +159,21 @@ export default {
       commit('clearError');
       commit('setLoading', true);
       try {
-        //logic
+        // logic
         const user = await firebase
           .auth()
           .signInWithEmailAndPassword(email, password);
-        commit('setUser', new User(user.user.uid));
+
+        console.log('TCL: loginUser -> user', user);
+        commit(
+          'setUser',
+          new User(
+            user.user.uid,
+            user.user.displayName,
+            user.user.email,
+            user.user.photoURL
+          )
+        );
 
         commit('setLoading', false);
         // commit('setOnline', true);
@@ -150,15 +187,22 @@ export default {
     /* Проверяем онлайн пользователя */
 
     async loggedUser({ commit }) {
+      console.log('TCL: loggedUser -> loggedUser');
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           // User is signed in.
-          commit('setUser', new User(user.uid));
+          commit(
+            'setUser',
+            new User(user.uid, user.displayName, user.email, user.photoURL)
+          );
           console.log('User ONLINE');
           return;
         }
         console.log('No user is signed in');
       });
+    },
+    async getUser() {
+      return firebase.auth().currentUser;
     },
     /* ****************** */
     async signOut({ commit }) {
@@ -169,6 +213,8 @@ export default {
           // Sign-out successful.
           commit('setUser', null);
           // commit('setOnline', false);
+          console.log('Юзер вышел из аккаунта');
+
           console.log('Sign-out successful');
         })
         .catch((error) => {
@@ -184,8 +230,5 @@ export default {
     checkUser(state) {
       return state.user !== null;
     },
-    // online(state) {
-    //   return state.online;
-    // },
   },
 };

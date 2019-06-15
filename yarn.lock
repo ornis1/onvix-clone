@@ -2345,6 +2345,11 @@ deep-is@~0.1.3:
   resolved "https://registry.yarnpkg.com/deep-is/-/deep-is-0.1.3.tgz#b369d6fb5dbc13eecf524f91b070feedc357cf34"
   integrity sha1-s2nW+128E+7PUk+RsHD+7cNXzzQ=
 
+deepmerge@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-3.2.0.tgz#58ef463a57c08d376547f8869fdc5bcee957f44e"
+  integrity sha512-6+LuZGU7QCNUnAJyX8cIrlzoEgggTM6B7mm+znKOX4t5ltluT9KLjN6g61ECMS0LTsLW7yDpNoxhix5FZcrIow==
+
 define-properties@^1.1.2:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/define-properties/-/define-properties-1.1.3.tgz#cf88da6cbee26fe6db7094f61d870cbd84cee9f1"
@@ -7930,6 +7935,13 @@ vue-loader@^13.3.0:
     vue-style-loader "^3.0.0"
     vue-template-es2015-compiler "^1.6.0"
 
+vue-meta@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/vue-meta/-/vue-meta-2.0.1.tgz#ece9bdba7245bb72bfd534ec5cc7630712d34bab"
+  integrity sha512-FsVTV7EpiWKhl9MvHeLd3DMtv+GVvRcwjd2yfbagWRdMnmkxWGh/B/M+znDHlUAjnHun9BEbxMPWnSlQJfHdhg==
+  dependencies:
+    deepmerge "^3.2.0"
+
 vue-radial-progress@^0.2.10:
   version "0.2.10"
   resolved "https://registry.yarnpkg.com/vue-radial-progress/-/vue-radial-progress-0.2.10.tgz#b4064c5d0750daf0ee6a9e323b3f79bd2bd6dedc"
@@ -7949,9 +7961,9 @@ vue-style-loader@^3.0.0, vue-style-loader@^3.0.1:
     loader-utils "^1.0.2"
 
 vue-tabs-with-active-line@^1.1.4:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/vue-tabs-with-active-line/-/vue-tabs-with-active-line-1.1.4.tgz#524b6162779b14f59f01b163167bd43ba55dcbff"
-  integrity sha512-8u91mWq49H4nZ5dsCQwE9gYyuSqoh91wCpixOu5+/43SWBmUrm7d3weIvlwr/P9MeUy61iSbeiV7oeSYe4Bspw==
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/vue-tabs-with-active-line/-/vue-tabs-with-active-line-1.2.1.tgz#1e1ac663db701d463efb4f2b157151185afb4850"
+  integrity sha512-ujhrRNZK9JQ/qZK++u+oDI58Cp5Zb3/Mj+kl+6UCTcO4n4+OlugipfO1mxtpWDfvANkP1hGmrfQpKe4h8pBJYg==
 
 vue-template-compiler@^2.5.2:
   version "2.6.10"

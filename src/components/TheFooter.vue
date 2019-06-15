@@ -43,7 +43,9 @@ export default {
     height: 20px;
   }
   & .copy {
-    @mixin center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     grid-column: 2/3;
     grid-row: 1;
   }

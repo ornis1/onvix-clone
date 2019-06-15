@@ -10,7 +10,7 @@ export default {
   name: 'MovieCardFooter',
   props: {
     year: Number,
-    rating: Number,
+    rating: String,
   },
 };
 </script>

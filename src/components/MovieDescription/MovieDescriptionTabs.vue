@@ -10,24 +10,35 @@
       @onClick="handleClick"
     />
     <div class="tabs-content">
-      <div v-if="currentTab === 'tab1'">{{overview}}</div>
+      <div v-if="currentTab === 'tab1'">{{movie.overview}}</div>
       <div v-if="currentTab === 'tab2'" class="tabs-content-actors">
         <router-link
           class="tabs-content-actors__link"
           v-for="actor in actors"
           :key="actor.id"
-          :to="`/actor/${actor.id}`"
+          :to="{name: 'actor',  params: {id: actor.id, title: actor.name} }"
         >{{actor.name}}</router-link>
       </div>
-      <div v-if="currentTab === 'tab3'">
+
+      <div v-if="currentTab === 'tab5'">
+        <table class="table">
+          <tbody>
+            <table-movie-card
+              v-for="(movie, index) in SimilarMovies"
+              :key="movie.id"
+              :movie="movie"
+            >{{index+=1}}</table-movie-card>
+          </tbody>
+        </table>
+      </div>
+      <!-- <div v-if="currentTab === 'tab3'">
         <router-link
           class="tabs-content-actors__link"
           v-for="name in russianNames"
           :key="name.id"
-          :to="`/actor/${name.name}`"
+          :to="{name: 'actor',  params: {title: 'kappa'} }"
         >{{name.name}}</router-link>
-        <pre>{{russianNames}}</pre>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
@@ -36,13 +47,16 @@
 import Tabs from 'vue-tabs-with-active-line';
 import { ApiMixin } from 'Mixins/ApiMixin.js';
 import axios from 'axios';
+import TableMovieCard from '../MovieDescription/MovieDescriptionTableMovieCard';
 
 export default {
   components: {
     Tabs,
+    TableMovieCard,
   },
   props: {
-    overview: { type: String, required: true, default: '' },
+    movie: { type: Object, required: true, default: {} },
+    // overview: { type: String, required: true, default: '' },
     actors: {
       type: Object,
       default() {
@@ -60,22 +74,33 @@ export default {
     ],
     currentTab: 'tab1',
     russianNames: [],
+    SimilarMovies: null,
   }),
   mixins: [ApiMixin],
-  mounted() {
-    console.log('mount');
-    for (const key in this.actors) {
-      if (this.actors.hasOwnProperty(key)) {
-        const actor = this.actors[key];
-        const request = this.$_ApiMixin_getPerson(actor.id);
-        axios.get(request).then(response => {
-          const info = response.data;
-          /* ПОЛУЧИТЬ ИМЕНА */
-        });
-      }
-    }
+  created() {
+    // for (const key in this.actors) {
+    //   if (this.actors.hasOwnProperty(key)) {
+    //     const actor = this.actors[key];
+    //     const request = this.$_ApiMixin_getPerson(actor.id);
+    //     axios.get(request).then((response) => {
+    //       const info = response.data;
+    //       /* ПОЛУЧИТЬ ИМЕНА */
+    //     });
+    //   }
+    // }
+  },
+  watch: {
+    movie() {
+      this.getSimilarMovies();
+    },
   },
   methods: {
+    getSimilarMovies() {
+      const id = this.movie.id;
+      this.$_ApiMixin_getSimilar(id).then((response) => {
+        this.SimilarMovies = response.results;
+      });
+    },
     handleClick(newTab) {
       this.currentTab = newTab;
     },
@@ -84,6 +109,16 @@ export default {
 </script>
 
 <style lang="postcss">
+.table {
+  display: table;
+  width: 100%;
+  tbody {
+    width: 100%;
+  }
+  /* display: grid; */
+  /* grid-template-rows: auto; */
+  /* grid-template-columns: 100px, 1fr, 100px, 100px; */
+}
 .default-tabs {
   position: relative;
   /* margin: 0 auto; */

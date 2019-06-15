@@ -2,8 +2,10 @@
   <div class="flex-container">
     <div class="media">
       <div class="image">
-        <img :src="$_ApiMixin_getImg(movie.poster_path)" alt>
-        <ActiveIcons class="icons"/>
+        <div class="image--backdark" v-if="imgStatus"></div>
+        <div class="image--placeholder" v-if="!imgStatus"></div>
+        <img :src="imgUrl" @load="imgStatus=true" alt>
+        <ActiveIcons :movie="this.movie" class="icons"/>
       </div>
       <!-- /.image -->
       <base-button color="gradient">Смотреть</base-button>
@@ -40,16 +42,20 @@
       <div class="caption">
         <p>
           Режиссер:
-          <router-link
+          <!-- <router-link
             :to="`/director/${producer.id}`"
             class="caption-producer"
-            v-for="producer in producersNames"
+            v-for="producer in producers.inEnglish"
             :key="producer.id"
-          >
-            {{producer.name}}&nbsp;
-            <!-- <span v-for="producer in producers.inEnglish" :key="producer.id">{{producer.name}}</span> -->
-            <!-- <span v-for="producer in producers.inRussian" :key="producer.id">{{producer.name}}</span> -->
-          </router-link>
+          >{{producer.name}}&nbsp;</router-link>-->
+          <router-link
+            :to="{
+              name: 'director',
+            params: {id: producer.id,title: producer.name}}"
+            class="caption-producer"
+            v-for="producer in producers.inEnglish"
+            :key="producer.id"
+          >{{producer.name}}&nbsp;</router-link>
         </p>
         <p>
           <span>{{releaseDate}}</span>
@@ -61,38 +67,27 @@
           <router-link
             v-for="genre in movie.genres"
             :key="genre.id"
-            to="/genre/28"
+            :to="{name: 'genre', params: {id: genre.id, title: genre.name}}"
           >{{genre.name}} &nbsp;</router-link>
         </p>
         <p>
-          <!-- <a href="#">Кинопоиск</a>
-          : {{movie.rating}} &nbsp;(47 631)&nbsp;-->
           <a href="#">IMDb</a>
-          : {{movie.vote_average}}&nbsp; ({{votes}})
+          : {{movie.vote_average}}&nbsp; ({{this.movie.vote_count}})
         </p>
       </div>
       <!-- /.caption -->
-      <Tabs :overview="movie.overview" :actors="{...cast}"/>
+      <Tabs :movie="movie" :actors="{...cast}"/>
     </div>
     <!-- /.content -->
   </div>
 </template>
 
 
-
-
-
-
-
-
 <script>
 /*eslint-disable */
 import axios from 'axios';
-// import data from '../../assets/movies.json';
-/* Import Icons */
 import ActiveIcons from 'icons/ActiveIcons';
 import { ApiMixin } from 'Mixins/ApiMixin.js';
-/*  */
 import BaseButton from 'Buttons/BaseButton';
 import Tabs from './MovieDescriptionTabs';
 import RadialProgressBar from '../../../node_modules/vue-radial-progress/dist/vue-radial-progress.min.js';
@@ -100,15 +95,20 @@ import RadialProgressBar from '../../../node_modules/vue-radial-progress/dist/vu
 export default {
   name: 'MovieDescription',
   mixins: [ApiMixin],
+  metaInfo: {
+    titleTemplate() {
+      return this.$route.params.title;
+    },
+  },
   components: {
     Tabs,
-
     ActiveIcons,
     BaseButton,
     RadialProgressBar,
   },
   data() {
     return {
+      imgStatus: false,
       completedSteps: 7,
       totalSteps: 10,
       movie: {},
@@ -119,75 +119,96 @@ export default {
     };
   },
   created() {
-    /* Получаем id фильма из параметров роута */
-    const { id } = this.$route.params;
-
-    /* Создаем строку запроса по id фильма с помощью метода из миксины */
-    const request = this.$_ApiMixin_getMovie(id);
-
-    /* Делаем запрос и результат сохраняем */
-    axios.get(request).then(response => {
-      this.movie = response.data;
-    });
-
-    /* Запрос для получения информации о составе фильма */
-    axios
-      .get(this.$_ApiMixin_getCast(id))
-      .then(response => {
-        // this.cast = { ...response.data.cast };
-        this.cast = response.data.cast;
-
-        this.crew = response.data.crew;
-      })
-      .then(() => {
-        /* Получаем только режиссеров */
-        this.crew.map(person => {
-          if (person.job === 'Director') {
-            this.producers.inEnglish.push({ name: person.name, id: person.id });
-          }
-        });
-      })
-      .then(() => {
-        /* Так как в ответе приходят имена на английском
-        Делаем запрос на каждого режиссера и получаем русскую версию имени если она есть*/
-
-        this.producers.inEnglish.map(person => {
-          axios(this.$_ApiMixin_getPerson(person.id)).then(response => {
-            const names = response.data.also_known_as;
-            const id = response.data.id;
-
-            for (let i = 0; i < names.length; i++) {
-              const name = names[i];
-              /* Если первая буква имени А-Я , то это русское имя */
-              const code = name.charCodeAt(0);
-              if (code >= 1040 && code <= 1071) {
-                this.producers.inRussian.push({ name, id });
-              }
-            }
-          });
-        });
-      });
+    // console.log(this.$route);
+    this.getMovie();
+    this.getCast();
   },
   methods: {
-    setVotes() {
-      this.votes = this.movie.vote_count
-        .toString()
-        .replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, ' ');
+    getCast() {
+      /* Запрос для получения информации о составе фильма */
+      const { id } = this.$route.params;
+      this.$_ApiMixin_getCast(id)
+        .then((response) => {
+          this.cast = response.cast;
+          this.crew = response.crew;
+        })
+        .then(() => {
+          /* Получаем только режиссеров */
+          let result = this.crew.filter((person) => {
+            return person.job === 'Director';
+          });
+          this.producers.inEnglish.push(...result);
+        })
+        .then(() => {
+          /* Так как в ответе приходят имена на английском
+          Делаем запрос на каждого режиссера и получаем русскую версию имени если она есть*/
+          const ids = this.producers.inEnglish.map((name) => name.id);
+
+          for (let i = 0; i < ids.length; i++) {
+            const id = ids[i];
+            let a = this.getRussianName(id);
+            this.producers.inRussian.push(a);
+          }
+          /* додлелать эту хуню */
+        });
+    },
+    getRussianName(id) {
+      const result = {};
+
+      this.$_ApiMixin_getPerson(id).then((response) => {
+        const names = response.also_known_as;
+
+        for (let i = 0; i < names.length; i++) {
+          const name = names[i];
+
+          if (this.isRussianWord(name)) {
+            result.id = id;
+            result.name = name;
+          }
+        }
+      });
+      return result;
+    },
+    isRussianWord(word) {
+      const result = word
+        .split(' ')
+        .join('')
+        .split('')
+        .filter((letter) => {
+          const code = letter.charCodeAt(0);
+          return code >= 1040 && code <= 1103 ? true : false;
+        });
+      return result.length;
+    },
+    getMovie() {
+      /* мне лень доделать нормально поэтому оставлю так. в объекте из роута только id жанров и я делаю запрос на весь фильм чтобы получить сразу названия жанров  */
+      /* Получаем id фильма из параметров роута */
+      const { id } = this.$route.params;
+
+      /* Создаем строку запроса по id фильма с помощью метода из миксины */
+      /* Делаем запрос и результат сохраняем */
+      this.$_ApiMixin_getMovie(id).then((response) => {
+        console.log('TCL: getMovie -> response', response);
+        this.movie = this.$route.params.movie;
+        Object.defineProperty(this.movie, 'genres', {
+          value: response.genres,
+          writable: true,
+        });
+      });
     },
   },
   watch: {
-    cast() {
-      console.log(typeof this.cast);
-    },
-    movie() {
-      this.setVotes();
+    '$route.params.id'() {
+      this.movies = [];
+      this.movies = [];
+      this.getMovie();
+      this.getCast();
     },
   },
   computed: {
-    producersNames() {
-      const eng = this.producers.inEnglish;
-      const rus = this.producers.inRussian;
-      return rus.length ? rus : eng;
+    imgUrl() {
+      if (!this.movie.poster_path) return;
+      return this.$_ApiMixin_getImg(this.movie.poster_path);
     },
     releaseDate() {
       let date = this.movie.release_date;
@@ -201,6 +222,14 @@ export default {
 
 
 <style lang="postcss" scoped>
+.--placeholder {
+  display: inline-block;
+  /* width: auto; */
+  min-height: 10px;
+  min-width: 100px;
+  border-radius: 5px;
+  background-color: #131313;
+}
 .b {
   display: none;
 }
@@ -237,18 +266,20 @@ a {
 .media {
   width: 231px;
   height: 600px;
-  position: absolute;
+  position: fixed;
   .image {
     height: 335px;
     width: 100%;
     margin-bottom: 40px;
     position: relative;
-    @mixin center;
-    &::before {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &--backdark {
       position: absolute;
       z-index: 1;
-      content: '';
-      display: block;
       width: 100%;
       height: 100%;
       background: linear-gradient(
@@ -256,6 +287,13 @@ a {
         rgba(0, 0, 0, 0.1) 0%,
         rgba(0, 0, 0, 0.4) 90%
       );
+    }
+    &--placeholder {
+      position: absolute;
+      background-color: #131313;
+      z-index: 1;
+      width: 102%;
+      height: 102%;
     }
     img {
       width: 100%;
@@ -280,7 +318,10 @@ a {
 
     border: none;
     font-size: 18px;
-    @mixin center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .btn-gradient a {
     color: white;

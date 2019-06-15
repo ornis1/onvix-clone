@@ -1,9 +1,9 @@
-<template functional>
+<template>
   <div class="slider-header-title">
-    <a class="slider-header-title-link" href="#">
+    <router-link class="slider-header-title__link" :to="to">
       <slot></slot>
-    </a>
-    <IconArrow class="slider-header-title-arrow"/>
+      <IconArrow class="slider-header-title__arrow"/>
+    </router-link>
   </div>
 </template>
 
@@ -13,6 +13,7 @@ import IconArrow from '../icons/IconArrowUp';
 export default {
   name: 'SliderTitle',
   components: { IconArrow },
+  props: { to: { type: Object, requared: true } },
 };
 </script>
 
@@ -23,26 +24,25 @@ export default {
   position: relative;
   display: flex;
   align-items: flex-end;
-  color: white;
   padding-right: 30px;
   box-sizing: border-box;
   cursor: pointer;
-  &-link {
+  color: white;
+  &__link {
     color: inherit;
     &:hover {
       text-decoration: none;
     }
   }
-  &-arrow {
-    width: 15px;
+  &__arrow {
     height: 15px;
     transition: 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
-    transform: rotate(90deg) translateX(-2px) translateY(-10px);
+    transform: rotate(90deg) translateX(1px) translateY(0px);
   }
   &:hover {
     color: #ffc000;
-    .slider-header-title-arrow {
-      transform: rotate(90deg) translateX(-2px) translateY(-20px);
+    .slider-header-title__arrow {
+      transform: rotate(90deg) translateX(1px) translateY(-8px);
     }
   }
 }

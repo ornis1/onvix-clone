@@ -2,19 +2,18 @@
   <div class="wrapper" :class="cardSize">
     <div class="slider-item">
       <div v-show="cardSize==='big_poster'" class="slider-item--backdark"></div>
-      <MovieCardTopIcons/>
       <div v-show="true" class="slider-item-hdx">HDX</div>
       <div class="slider-item-img">
-        <MovieCardHover :id="movie.id"/>
-        <MovieCardWatched v-if="watched.includes(movie.id)"/>
-        <MovieCardFooter :year="movieYear" :rating="movie.vote_average"/>
+        <MovieCardTopIcons class="top-icons" :movie="movie"/>
+        <MovieCardHover :movie="movie"/>
+        <MovieCardWatched v-if="isWatched"/>
+        <MovieCardFooter :year="movieYear" :rating="rating"/>
 
         <img
           class="slider-item-img__img"
           src="../../assets/img/1px.gif"
           :style="{backgroundImage: `url(${img})`}"
         >
-        <!-- <img class="slider-item-img__img" :src="imgSrc"> -->
       </div>
       <div class="slider-item-title">{{movie.title}}</div>
     </div>
@@ -39,25 +38,35 @@ export default {
   },
   mixins: [ApiMixin],
   props: {
-    watched: {
-      type: Array,
-      default() {
-        return [];
-      },
-    },
     cardSize: String,
     movie: Object,
+    btnClose: Boolean,
   },
   computed: {
+    isWatched() {
+      const movies = this.$store.getters.watched;
+      if (movies.length) {
+        return movies.some((movie) => movie.id === this.movie.id);
+      }
+      return false;
+    },
+    rating() {
+      const rating = this.movie.vote_average;
+      if (`${rating}`.length <= 1) {
+        return `${rating},0`;
+      }
+      return `${rating}`.split('.').join(',');
+    },
     movieYear() {
-      return Number(this.movie.release_date.slice(0, 4));
+      const date = this.movie.release_date;
+      return date ? Number(date.slice(0, 4)) : new Date().getFullYear();
     },
     img() {
       if (this.cardSize === 'poster' && this.movie.poster_path) {
-        return this.$_ApiMixin_getImg(this.movie.poster_path, 'w300');
+        return this.$_ApiMixin_getImg(this.movie.poster_path, '300');
       }
       if (this.cardSize === 'big_poster' && this.movie.backdrop_path) {
-        return this.$_ApiMixin_getImg(this.movie.backdrop_path, 'w400');
+        return this.$_ApiMixin_getImg(this.movie.backdrop_path, '400');
       }
       return 'https://magauto102.ru/wp-content/uploads/2017/09/noimg.jpg';
     },
@@ -75,8 +84,9 @@ export default {
   width: 365px;
   height: 246px;
   & .slider-item {
+    position: relative;
     transform: scale(1);
-    height: 100%;
+    /* height: 100%; */
     &-img {
       height: 100%;
       padding: 0;
@@ -132,12 +142,14 @@ export default {
 }
 
 .wrapper {
-  margin: 10px;
-  box-sizing: border-box;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  /* float: left; */
+  margin: 0 8px;
+  /* box-sizing: border-box; */
+  /* width: 200px; */
+  /* padding: 0 8px; */
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
 }
 .slider-item {
   position: relative;
@@ -190,7 +202,7 @@ export default {
     display: flex;
     cursor: pointer;
     width: 100%;
-    height: 25%;
+    /* height: 25%; */
     bottom: 0;
     font-size: 14px;
     line-height: 1.5;
@@ -217,6 +229,9 @@ export default {
 }
 
 /* Стили при наведение */
+.top-icons {
+  opacity: 0;
+}
 .slider-item:hover .hover {
   opacity: 1;
 }

@@ -1,9 +1,13 @@
 <template>
-  <div class="top-icons">
-    <div class="top-icons--backdark"></div>
-    <IconMenu class="top-icons__menu"/>
-    <!-- <IconClose class="top-icons__close"/> -->
-    <ActiveIcons class="top-icons__active-icons"/>
+  <div class="icons" @mouseleave="show = false" :class="{'show': show}">
+    <div v-if="show" class="icons--backdark"></div>
+    <IconMenu
+      @mouseover.native="show = true"
+      :class="{'icons__menu--active': active}"
+      class="icons__menu icon"
+    />
+    <IconClose @click.native="removeMovie" v-if="btnCLoseShow" class="icons__close icon"/>
+    <ActiveIcons v-if="show" :movie="movie" class="icons__active-icons"/>
   </div>
 </template>
 <script>
@@ -12,85 +16,93 @@ import IconClose from 'icons/IconClose';
 import IconMenu from 'icons/IconMenu';
 
 export default {
+  props: {
+    movie: { type: Object },
+  },
+  data() {
+    return { show: false };
+  },
   components: { ActiveIcons, IconClose, IconMenu },
   name: 'MovieCardTopIcons',
+  computed: {
+    btnCLoseShow() {
+      return this.movie.from;
+    },
+    active() {
+      const w = this.$store.getters.watched;
+      const wl = this.$store.getters.watchLater;
+      const f = this.$store.getters.favorite;
+      let r = [...w, ...wl, ...f].some((x) => x.id === this.movie.id);
+      return r;
+    },
+  },
+  methods: {
+    removeMovie() {
+      /* Узнаем где находится этот фильм (просмотренные, избранные и т.д.) */
+      if (this.movie.from) {
+        this.$store.dispatch('remove', {
+          movie: this.movie,
+          name: this.movie.from,
+        });
+      }
+    },
+  },
 };
 </script>
-<style lang="postcss" >
-.top-icons__menu:hover {
-  color: white;
+<style lang="postcss" scoped>
+.show {
+  width: 100%;
+  height: 100%;
 }
-.top-icons {
+.icons {
   position: absolute;
-
-  /* top: 0; */
   right: 0;
-  /* padding-top: 10px; */
-  /* padding-right: 10px; */
-  /* width: 100%; */
-  width: 30px;
-  height: 30px;
+  top: 0;
   box-sizing: border-box;
-
-  opacity: 0;
-  visibility: hidden;
 
   z-index: 500;
   display: flex;
-  /* ДЕРЬМО Не рАбОТАЕТ КАК НУЖНО!!! */
-  /* ДЕРЬМО Не рАбОТАЕТ КАК НУЖНО!!! */
-  /* ДЕРЬМО Не рАбОТАЕТ КАК НУЖНО!!! */
+  justify-content: flex-end;
   &--backdark {
     position: absolute;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.89);
-    /* background-color: #fff; */
-    $h: 200%;
-    height: $h;
-    /* top: $h; */
-    display: none;
-
+    height: 100%;
     z-index: 5;
-    /* ДЕРЬМО Не рАбОТАЕТ КАК НУЖНО!!! */
-    /* ДЕРЬМО Не рАбОТАЕТ КАК НУЖНО!!! */
-    /* ДЕРЬМО Не рАбОТАЕТ КАК НУЖНО!!! */
-    /* ДЕРЬМО Не рАбОТАЕТ КАК НУЖНО!!! */
   }
-  &:hover {
-    width: 100%;
-    height: 37.5%;
-    /* background-color: rgba(0, 0, 0, 0.81); */
-    .top-icons__menu {
-      color: white;
-    }
-    .top-icons__active-icons {
-      opacity: 1;
-      visibility: visible;
-    }
-    .top-icons--backdark {
-      z-index: 0;
-      display: block;
+  .icon {
+    z-index: 1000;
+    margin: 5px 8px 0 0;
+    cursor: pointer;
+  }
+  &__close {
+    padding: 3px;
+    height: 25px;
+    box-sizing: border-box;
+    color: rgba(255, 255, 255, 0.2);
+    &:hover {
+      color: rgba(255, 255, 255, 1);
     }
   }
   &__menu {
-    z-index: 1000;
-    transition: 0ms;
-    display: flex;
-    height: 20px;
-    color: rgba(0, 0, 0, 0.34);
-    /* color: white; */
-    position: absolute;
-    right: 10px;
-    top: 5px;
-    cursor: pointer;
+    color: rgba(255, 255, 255, 0.2);
+    height: 18px;
+    transition: none;
+    &:hover {
+      color: white;
+    }
   }
   &__active-icons {
-    opacity: 0;
-    visibility: hidden;
     display: flex;
     justify-content: space-around;
     box-sizing: border-box;
     padding: 55px 15px 0;
+  }
+}
+.icons__menu--active {
+  color: #ffff00;
+  &:hover {
+    color: #ffff00;
   }
 }
 </style>

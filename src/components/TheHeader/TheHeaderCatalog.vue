@@ -1,10 +1,8 @@
 <template>
-  <div>
-    <a class="nav-catalog" href="#">
-      Каталог
-      <arrow-down class="nav-catalog-arrow"></arrow-down>
-    </a>
-  </div>
+  <a class="nav-catalog" href="#">
+    Каталог
+    <arrow-down class="nav-catalog-arrow"></arrow-down>
+  </a>
 </template>
 
 <script>
@@ -25,7 +23,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  lang='postcss'>
 .nav-catalog {
-  @mixin center;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: white;
   height: 100%;
   width: 140px;

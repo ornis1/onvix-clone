@@ -1,100 +1,40 @@
 <template>
   <div class="icons">
-    <a
-      class="icons__link icons__link-star"
-      :class="{'icons__link-star-active' : isFavorite}"
-      href="#"
-      @click="switchIt('star')"
-    >
-      <IconStar class="star"/>
-      <IconClose v-if="isFavorite" class="star-close close"/>
-    </a>
-    <a
-      @click="switchIt('clock')"
-      class="icons__link icons__link-clock"
-      :class="{'icons__link-clock-active' : isWatchLater}"
-      href="#"
-    >
-      <IconClock class="clock"/>
-      <IconClose v-if="isWatchLater" class="clock-close close"/>
-    </a>
-    <a
-      @click="switchIt('watched')"
-      class="icons__link icons__link-watched"
-      :class="{'icons__link-watched-active' : isWatched}"
-      href="#"
-    >
+    <active-icon :movie="this.movie" :movieCategory="'favorite'" class="icons__link-favorite">
+      <IconStar class="favorite"/>
+    </active-icon>
+
+    <active-icon :movie="this.movie" :movieCategory="'watchLater'" class="icons__link-watch_later">
+      <IconClock class="watch_later"/>
+    </active-icon>
+
+    <active-icon :movie="this.movie" :movieCategory="'watched'" class="icons__link-watched">
       <IconWatched class="watched"/>
-      <IconClose v-if="isWatched" class="watched-close close"/>
-    </a>
+    </active-icon>
   </div>
 </template>
 
 <script>
 import IconWatched from 'icons/IconWatched';
 import IconStar from 'icons/IconStarSolid';
-import IconClock from 'icons/IconClockSolid';
-import IconClose from 'icons/IconClose';
-import BaseActiveIcon from 'icons/BaseActiveIcon';
+import IconClock from 'icons/IconClockRegular';
+import ActiveIcon from 'icons/ActiveIcon';
 
 export default {
   name: 'ActiveIcons',
   components: {
-    BaseActiveIcon,
-    IconClose,
+    ActiveIcon,
     IconWatched,
     IconClock,
     IconStar,
   },
-  data() {
-    return {
-      isFavorite: false,
-      isWatchLater: false,
-      isWatched: false,
-      isHover: false,
-    };
-  },
-  methods: {
-    switchIt(iconName) {
-      switch (iconName) {
-        case 'star':
-          this.isFavorite = !this.isFavorite;
-          break;
-        case 'clock':
-          this.isWatchLater = !this.isWatchLater;
-          break;
-        case 'watched':
-          this.isWatched = !this.isWatched;
-          break;
-
-        default:
-          break;
-      }
-    },
+  props: {
+    movie: { type: Object },
   },
 };
 </script>
 
 <style lang="postcss" scoped>
-:matches(.icons__link-star-active, .icons__link-watched-active, .icons__link-clock-active) {
-  &:hover {
-    .close {
-      display: block;
-    }
-    .star,
-    .clock,
-    .watched {
-      display: none;
-    }
-  }
-}
-
-.close {
-  display: none;
-  color: black;
-  height: 20px;
-}
-
 .icons {
   position: absolute;
   z-index: 100;
@@ -103,26 +43,6 @@ export default {
   width: 100%;
 
   &__link {
-    position: relative;
-    box-sizing: border-box;
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    border-radius: 50%;
-    color: #fff;
-    @mixin center;
-    height: 30px;
-    width: 30px;
-    &-star-active {
-      background-color: #ffc000;
-      border: 2px solid transparent;
-    }
-    &-clock-active {
-      background-color: #24d877;
-      border: 2px solid transparent;
-    }
-    &-watched-active {
-      background-color: #24b2d8;
-      border: 2px solid transparent;
-    }
     /* Popup */
     /* Треугольник */
     &:hover::after {
@@ -148,12 +68,12 @@ export default {
       box-sizing: border-box;
       border-radius: 5px;
     }
-    &-star {
+    &-favorite {
       &:hover::before {
         content: 'Избранное';
       }
     }
-    &-clock {
+    &-watch_later {
       &:hover::before {
         width: 110px;
         content: 'Смотреть позже';
@@ -167,27 +87,27 @@ export default {
     /* End popup */
     &:hover {
       background-color: #fff;
-      .star,
-      .clock,
+      .favorite,
+      .watch_later,
       .watched {
         color: #000;
       }
     }
 
-    .star,
-    .clock,
+    .favorite,
+    .watch_later,
     .watched {
       position: relative;
       background-color: transparent;
     }
-    .star {
-      width: 15px;
+    .favorite {
+      width: 14px;
     }
-    .clock {
-      width: 17px;
+    .watch_later {
+      width: 16px;
     }
     .watched {
-      width: 22px;
+      width: 20px;
     }
   }
 }

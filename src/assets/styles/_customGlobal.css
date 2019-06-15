@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i');
+/* @import url('https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i'); */
 a {
   color: black;
   &:hover {
@@ -24,4 +24,33 @@ body::after {
   z-index: -1;
   background-repeat: repeat-x;
   /* background-image: linear-gradient(-180deg, rgba(21, 21, 21, 0.9), #171717); */
+}
+h1 {
+  color: #fff;
+  font-family: lato,sans-serif;
+  font-size: 24px;
+font-weight: 300;
+font-style: normal;
+}
+.input--grey {
+  margin: 0 auto;
+  width: 100%;
+  height: 46px;
+  background-color: #232323;
+  padding: 0;
+  bottom: 0;
+  box-sizing: border-box;
+  color: #aaa;
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 5px 16px 6px;
+  &:hover {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+  &:focus {
+    background-color: #fff;
+    color: black
+  }
 }
