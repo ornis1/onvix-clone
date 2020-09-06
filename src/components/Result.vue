@@ -134,7 +134,7 @@ export default {
       this.$_ApiMixin_multiSearch(this.query, (this.page += 1)).then(
         (response) => {
           this.people = response.results.filter(
-            (x) => x.media_type === 'person'
+            (x) => x.media_type === 'person',
           );
           this.movies = [...this.movies, ...response.results];
           this.filterByEmptyProperty();
@@ -156,7 +156,7 @@ export default {
       }
     },
     loadUserAddedMovies() {
-      /* 
+      /*
       http://localhost:8080/:type/:id
       http://localhost:8080/collections/favorite
       http://localhost:8080/collections/watched
@@ -205,7 +205,7 @@ export default {
 };
 </script>
 
-<style lang="postcss" scoped>
+<style lang="stylus" scoped>
 .container {
   width: 1600px;
   margin: 0 auto;

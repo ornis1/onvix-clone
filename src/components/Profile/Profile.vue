@@ -173,7 +173,7 @@ export default {
 };
 </script>
 
-<style lang="postcss" >
+<style lang="stylus" >
 .flex {
   display: flex;
   justify-content: space-between;

@@ -51,8 +51,8 @@ export default {
 };
 </script>
 
-<style lang="postcss" >
-@import '../../assets/styles/_mixins.css';
+<style lang="stylus" >
+@import '../../assets/styles/_mixins.styl';
 .catalog-dropdown--hr {
   margin: 15px 35px;
   height: 1px;
@@ -118,7 +118,7 @@ export default {
       height: 35px;
       text-align: left;
       outline: none;
-      @mixin reset-Button;
+      reset-button();
       padding: 9px 5px 10px 30px;
       border-left: 4px solid transparent;
       color: #797979;

@@ -1,19 +1,29 @@
-@define-mixin center {
+center() {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
 }
-@define-mixin arrow $size, $weight, $color {
+arrow($size, $weight, $color) {
+  {block}
   height: $size;
   width: $size;
   border-top: $weight solid $color;
   border-right: $weight solid $color;
   transform: rotate(45deg);
-  @mixin-content;
 }
-@define-mixin 
-  reset-Button {
+
+create-arrow() {
+  &::before {
+    arrow(10px, 2px, #fff)
+    content: '';
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+  }
+}
+
+reset-button() {
     border: none;
     margin: 0;
     padding: 0;

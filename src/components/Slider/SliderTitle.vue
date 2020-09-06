@@ -17,8 +17,7 @@ export default {
 };
 </script>
 
-<style lang="postcss" scoped>
-/* @import url('../../styles/_mixins.css'); */
+<style lang="stylus" scoped>
 
 .slider-header-title {
   position: relative;
@@ -46,5 +45,4 @@ export default {
     }
   }
 }
-/* color: #ffc000; */
 </style>

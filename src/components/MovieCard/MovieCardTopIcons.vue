@@ -32,7 +32,7 @@ export default {
       const w = this.$store.getters.watched;
       const wl = this.$store.getters.watchLater;
       const f = this.$store.getters.favorite;
-      let r = [...w, ...wl, ...f].some((x) => x.id === this.movie.id);
+      const r = [...w, ...wl, ...f].some(x => x.id === this.movie.id);
       return r;
     },
   },
@@ -49,7 +49,7 @@ export default {
   },
 };
 </script>
-<style lang="postcss" scoped>
+<style lang="stylus" scoped>
 .show {
   width: 100%;
   height: 100%;

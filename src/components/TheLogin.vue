@@ -47,8 +47,6 @@
 </template>
 <script>
 import BaseButton from 'Buttons/BaseButton';
-import firebase from 'firebase/app';
-import { log } from 'util';
 
 export default {
   name: 'Login',
@@ -107,7 +105,7 @@ export default {
 };
 </script>
 
-<style lang="postcss" scoped>
+<style lang="stylus" scoped>
 @import url('https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i');
 
 .wrapper {

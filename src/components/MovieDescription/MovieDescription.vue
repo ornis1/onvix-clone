@@ -221,7 +221,7 @@ export default {
 </script>
 
 
-<style lang="postcss" scoped>
+<style lang="stylus" scoped>
 .--placeholder {
   display: inline-block;
   /* width: auto; */

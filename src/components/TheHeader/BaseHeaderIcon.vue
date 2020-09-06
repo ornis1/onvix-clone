@@ -20,8 +20,8 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style  lang='postcss' scoped>
-@import '../../assets/styles/_colors.css';
+<style  lang='stylus' scoped>
+@import '../../assets/styles/_colors.styl';
 .icon {
   cursor: pointer;
   display: flex;

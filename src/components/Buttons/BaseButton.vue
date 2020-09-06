@@ -17,7 +17,7 @@ export default {
 };
 </script>
 
-<style lang="postcss" scoped>
+<style lang="stylus" scoped>
 .btn {
   z-index: 1;
   display: flex;

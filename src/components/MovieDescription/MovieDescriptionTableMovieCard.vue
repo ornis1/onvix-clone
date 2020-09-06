@@ -38,7 +38,7 @@ export default {
 };
 </script>
 
-<style lang="postcss" scoped>
+<style lang="stylus" scoped>
 .row {
   a {
     color: #fff;

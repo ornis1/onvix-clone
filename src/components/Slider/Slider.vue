@@ -21,7 +21,12 @@
         :key="`${movie.title}${movie.key || index}`"
         class="r"
       >
-        <MovieCard class="slide d-flex" :btnClose="true" :movie="movie" :cardSize="cardSize"></MovieCard>
+        <MovieCard
+          class="slide d-flex"
+          :btnClose="true"
+          :movie="movie"
+          :cardSize="cardSize"
+        />
       </swiperSlide>
 
       <swiperSlide v-for="n in 8" :key="n*Math.random()" class="r">
@@ -32,10 +37,6 @@
 </template>
 
 <script>
-// GET 'https://api.themoviedb.org/3/discover/movie?api_key=6c789b97c269e57a2df3bcbc30f04173&language=ru&sort_by=popularity.desc&include_adult=false&include_video=false&page=1';
-// import 'swiper/dist/css/swiper.css';
-import axios from 'axios';
-import Vue from 'vue';
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
 import MovieCard from 'MovieCard/MovieCard';
 import MovieCardPlaceholder from 'MovieCard/MovieCardPlaceholder';
@@ -109,7 +110,7 @@ export default {
   },
   methods: {
     loadMovies() {
-      this.currentPage++;
+      this.currentPage += 1;
       this.$emit('loadMovies', { from: this.from, page: this.currentPage });
     },
     incrRealIndex(step) {
@@ -129,9 +130,9 @@ export default {
       this.swiper.slideTo(this.swiper.activeIndex + this.step, 500, false);
       this.incrRealIndex(this.step);
 
-      this.realIndex >= this.movies.length - this.step - 6
-        ? this.loadMovies()
-        : '';
+      if (this.realIndex >= this.movies.length - this.step - 6) {
+        this.loadMovies();
+      }
     },
     slideBack() {
       this.swiper.slideTo(this.swiper.activeIndex - this.step, 500, false);
@@ -141,8 +142,9 @@ export default {
 };
 </script>
 
-<style lang="postcss">
-@import '../../assets/styles/_colors.css';
+<style lang="stylus">
+@import '../../assets/styles/_colors.styl';
+@import '../../assets/styles/_mixins.styl';
 .r {
   position: relative;
 }
@@ -152,7 +154,8 @@ export default {
 }
 .slider {
   height: 360px;
-  width: 1600px;
+  max-width: 1600px;
+  width 100%;
   margin: 0 auto;
   margin-bottom: 20px;
   display: inline-block;
@@ -178,7 +181,6 @@ export default {
         margin-right: 30px;
         background-color: rgba(255, 255, 255, 0.15);
         border-radius: 5px;
-        /* border: 2px solid #333; */
         font-size: 16px;
         padding: 7px 16px;
         color: white;
@@ -208,66 +210,49 @@ export default {
   justify-content: center;
   padding: 2px 8px;
   border-radius: 5px;
-  &::before {
-    @mixin arrow 10px, 2px, #fff {
-      content: '';
-      display: block;
-      position: relative;
-      box-sizing: border-box;
-      cursor: pointer;
-    }
-  }
+  cursor: pointer;
   &:hover {
     background-color: #fff;
-    &::before {
-      @mixin arrow 10px, 2px, $main;
-      cursor: pointer;
-    }
   }
+  create-arrow()
 }
+
 .swiper-button-prev {
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
   &::before {
-    transform: rotate(225deg);
-    cursor: pointer;
+    transform: rotate(225deg) !important;
   }
-  &:hover&::before {
-    transform: rotate(225deg);
+  &:hover::before {
+    arrow(10px, 2px, $main)
   }
 }
 .swiper-button-next {
+  create-arrow()
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
   border-left: none;
-  cursor: pointer;
+  create-arrow()
+  &:hover::before {
+    arrow(10px, 2px, $main)
+  }
 }
 .slide {
   z-index: 1000;
+  display: flex;
 }
 .swiper-button-prev {
   &--blocked {
-    cursor: not-allowed;
     &::before {
-      @mixin arrow 10px, 2px, rgba(255, 255, 255, 0.2) {
-        content: '';
-        display: block;
-        position: relative;
-        box-sizing: border-box;
-        transform: rotate(225deg);
-      }
+      arrow( 10px, 2px, rgba(255, 255, 255, 0.2) )
     }
     &:hover {
-      background-color: $main;
+      background-color $main;
+      cursor: not-allowed;
       &::before {
-        @mixin arrow 10px, 2px, rgba(255, 255, 255, 0.2) {
-          cursor: not-allowed;
-        }
+        arrow( 10px, 2px, rgba(255, 255, 255, 0.2) )
       }
     }
   }
-}
-.d-flex {
-  display: flex;
 }
 </style>

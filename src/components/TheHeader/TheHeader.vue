@@ -90,8 +90,8 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang='postcss'>
-@import '../../assets/styles/_colors.css';
+<style lang='stylus'>
+@import '../../assets/styles/_colors.styl';
 .replay:hover {
   .replay-dropdown {
     display: block;

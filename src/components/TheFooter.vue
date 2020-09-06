@@ -20,8 +20,8 @@ export default {
 };
 </script>
 
-<style lang="postcss" >
-@import url('../assets/styles/_colors.css');
+<style lang="stylus" >
+@import '../assets/styles/_colors.styl';
 .app-footer {
   position: absolute;
   bottom: 0;

@@ -74,8 +74,8 @@ export default {
 };
 </script>
 
-<style lang="postcss" scoped>
-@import '../../assets/styles/_colors.css';
+<style lang="stylus" scoped>
+@import '../../assets/styles/_colors.styl';
 .poster {
   width: 183px;
   height: 346px;

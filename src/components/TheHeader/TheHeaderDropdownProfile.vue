@@ -67,7 +67,7 @@ export default {
 };
 </script>
 
-<style lang="postcss" scoped>
+<style lang="stylus" scoped>
 .dropdown {
   position: absolute;
   z-index: 1000;

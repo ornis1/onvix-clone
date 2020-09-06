@@ -28,7 +28,7 @@ export default {
 };
 </script>
 
-<style lang="postcss" >
+<style lang="stylus" >
 .hover {
   opacity: 0;
   position: absolute;

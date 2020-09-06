@@ -43,7 +43,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang='postcss'>
+<style scoped lang='stylus'>
 .btn {
   position: absolute;
   background-color: transparent;

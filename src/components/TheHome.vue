@@ -25,8 +25,8 @@
 
 <script>
 import Slider from 'Slider/Slider';
-import { ApiMixin } from 'Mixins/ApiMixin';
 import axios from 'axios';
+
 export default {
   name: 'Main',
   // mixins: [ApiMixin],
@@ -87,7 +87,6 @@ export default {
     loadNewestMovies(page = 1) {
       const year = new Date().getFullYear();
       const month = new Date().getMonth() + 1;
-      const day = new Date().getDate();
       const request = `https://api.themoviedb.org/3/discover/movie?api_key=6c789b97c269e57a2df3bcbc30f04173&language=ru-RU&sort_by=release_date.desc&include_adult=false&include_video=false&page=${page}&vote_count.gte=270&release_date.lte=${year}-${12}-${month}`;
       axios.get(request).then((response) => {
         this.newestMovies = [...this.newestMovies, ...response.data.results];
@@ -103,8 +102,10 @@ export default {
 };
 </script>
 
-<style lang="postcss" scoped>
+<style lang="stylus" scoped>
 .main {
+  max-width: 1600px;
+  width 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;

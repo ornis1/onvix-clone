@@ -108,7 +108,7 @@ export default {
 };
 </script>
 
-<style lang="postcss">
+<style lang="stylus">
 .table {
   display: table;
   width: 100%;

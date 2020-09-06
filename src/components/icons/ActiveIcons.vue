@@ -34,7 +34,7 @@ export default {
 };
 </script>
 
-<style lang="postcss" scoped>
+<style lang="stylus" scoped>
 .icons {
   position: absolute;
   z-index: 100;

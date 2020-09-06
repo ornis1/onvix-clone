@@ -54,7 +54,7 @@ export default {
 };
 </script>
 
-<style lang="postcss" scoped>
+<style lang="stylus" scoped>
 .icons__link {
   position: relative;
   box-sizing: border-box;
